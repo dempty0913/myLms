@@ -1,0 +1,200 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cafe24SsurroundAir';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+	margin: 0;  padding: 0; box-sizing: border-box;
+}
+
+body {
+	overflow: hidden; 
+}
+
+
+hr {
+	margin: 0;
+}
+
+p {
+	margin-bottom: 0;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.layout {
+	display: flex;
+}
+
+.sideBar {
+	width: 17%;
+	height: 100vh;
+	background: #2F4352;
+}
+
+.logo {
+	font-size: 50px;
+	font-family: 'Do Hyeon', sans-serif;
+	text-align: center;
+	color: #CCE8F2;
+	margin: 15px 30px;
+}
+
+.menuList {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;	
+	align-items: center;
+	margin-top: 15px;
+}
+
+
+
+.lmsList {
+	width: 100%;
+}
+
+.lmsList a {
+	width: 100%;
+	font-size: 27px;
+	font-family: 'Do Hyeon', sans-serif;
+	color: white;
+	margin: 0 30px;
+	display: inline-block;
+}
+
+.lmsList .liBtn {
+	padding: 5px 0;
+}
+
+.lmsList .clicked {
+	background: #4C6C85;
+}
+
+.topProfile {
+	height: 10vh;
+	box-shadow: 0px 10px 10px -10px #8F8D8A;
+	font-size: 19px;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 40px;
+	color: #2F4352;
+}
+
+.topProfile svg {
+	font-size: 24px;
+}
+
+.topProfile p svg {
+	margin-right: 8px;
+}
+
+.mainPart {
+	width: 83%;
+}
+
+.rightInfo {
+	display: flex;
+}
+
+.rightInfo p:first-child {
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+
+.memberProfile {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px 13px 10px 13px;
+	font-family: 'GmarketSansMedium';
+}
+
+.memberProfile .circle {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+.memberProfile .circle img {
+	width: 100%;
+	border-radius: 50%;
+}
+
+.memberProfile .memberInfo {
+	color: white;
+	font-size: 14px;
+}
+
+.memberProfile .memberInfo p:first-child span {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.memberProfile .memberInfo p:nth-child(2) {
+	margin-bottom: 5px;
+}
+
+.memberProfile .memberInfo p:nth-child(3) {
+	font-size: 13px;
+	text-decoration: underline;
+}
+
+.notiList {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 10px;
+	font-family: 'GmarketSansMedium';
+}
+
+.itemList p:first-child {
+	color: gray;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.noti {
+	background: lightgray;
+	height: 50px;
+	text-align: center;
+	line-height: 60px;
+	font-weight: bold;
+	font-family: 'GmarketSansMedium';
+	color: gray;
+	margin-bottom: 15px;
+}
+
+.modal-content{
+	overflow-y: initial !important
+}
+.modal-body{
+	height: 450px;
+	overflow-y: auto;
+}

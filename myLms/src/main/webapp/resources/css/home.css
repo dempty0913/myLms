@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+.contents {
+	width: 100%;
+	padding: 30px 80px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: #DCE7F2;
+}
+
+.topLayout {
+	width: 90%;
+}
+
+.topText {
+	font-size: 26px;
+	margin-bottom: 20px;
+}
+
+.topText p:first-child {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+
+.search {
+	margin: 0 auto;
+}
+
+.search input {
+	border-radius: 15px;
+	width: 65%;
+	height: 10%;
+	font-size: 20px;
+	padding: 6px;
+	margin-right: 10px;
+}
+
+.search button {
+	background: #2F4352;
+	color: white;
+	font-size: 20px;
+	border-radius: 15px;
+	padding: 6px 25px;
+}
+
+
+.lectureList {
+	width: 80%;
+	margin-left:auto; 
+    margin-right:auto;
+    margin-top: 30px;
+}
+
+.lecture {
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	font-size: 16px;
+}
+
+.lecture tr {
+	border-bottom: 1px solid black;
+}
+
+.lecture td {
+	padding: 5px 0;
+}
+
+.lecture tr:first-child {
+	color: gray;
+	font-weight: bold;
+}
+
+.lecture button {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 5px 17px;
+	border-radius: 12px;
+}
+
+.lecture .addBtn {
+	background: #2F4352;
+	color: white;
+}
+
+.lecture .detailBtn {
+	background: white;
+	border: 2px solid #2F4352;
+}
+
+
+.modal-body {
+	display: flex;
+	justify-content: space-between;
+	height: 200px;
+	margin-bottom: 30px;
+}
+
+.leftContent p:first-child {
+	color: gray;
+	font-size: 22px;
+}
+
+.leftContent p:nth-child(2) {
+	font-size: 35px;
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+
+.leftContent ul {
+	font-size: 20px;
+}
+
+
+.rightContent button {
+	font-size: 18px;
+	padding: 5px 17px;
+	border-radius: 12px;
+}
+
+.rightContent .addBtn {
+	background: #2F4352;
+	color: white;
+}
+
+.rightContent .lectureFileBtn {
+	background: white;
+	border: 2px solid #2F4352;
+}
+
+.goal {
+	width: 100%;
+}
+
+legend {
+	float: none; 
+	padding: inherit;
+	font-size: 22px;
+	font-weight: bold;
+}
