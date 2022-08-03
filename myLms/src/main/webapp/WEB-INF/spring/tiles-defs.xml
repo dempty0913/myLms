@@ -29,6 +29,14 @@
 	</definition>
 	 -->
 	 
+	<definition name="empty" template="/WEB-INF/views/layout/empty.jsp">
+		<put-attribute name="body" value=""/>
+	</definition>
+	
+	<definition name="login/*" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/login/{1}.jsp" />
+	</definition>
+	 
 	<definition name=".*.*.*" extends=".mainLayout">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp"/>
 	</definition>
