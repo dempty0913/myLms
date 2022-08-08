@@ -95,6 +95,27 @@ body {
 }
 
 </style>
+<script type="text/javascript">
+function loginStd() {
+    const f = document.stdForm;
+	let str;
+	
+	str = f.userId.value;
+    if(!str) {
+        f.userId.focus();
+        return;
+    }
+
+    str = f.userPwd.value;
+    if(!str) {
+        f.userPwd.focus();
+        return;
+    }
+
+    f.action = "${pageContext.request.contextPath}/member/login";
+    f.submit();
+}
+</script>
 </head>
 <body>
 
@@ -115,12 +136,17 @@ body {
 
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<div class="textBox">
-						<p>아이디 <input type="text" class="form-control"></p>
-						<p>비밀번호 <input type="text" class="form-control"></p>
-					</div>
-					<button type="button" class="btn loginBtn" onclick="location.href='${pageContext.request.contextPath}/home/home'">학생으로 로그인</button>
+					<form name="stdForm" method="POST">
+						<div class="textBox">
+							<p>아이디 <input type="text" name="userId" class="form-control"></p>
+							<p>비밀번호 <input type="password" name="userPwd" class="form-control"></p>
+						</div>
+						<button type="button" class="btn loginBtn" onclick="loginStd();">학생으로 로그인</button>
+					</form>
 					<a href="#">회원가입하기</a>
+					<div class="d-grid">
+						<p class="form-control-plaintext text-center text-primary">${message}</p>
+               		</div>
 				</div>
 				
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">

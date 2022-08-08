@@ -30,14 +30,14 @@ $(function(){
 				<img src="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/309/59932b0eb046f9fa3e063b8875032edd_crop.jpeg">
 			</div>
 			<div class="memberInfo">
-				<p><span>학생</span>&nbsp;&nbsp;홍길동</p>
-				<p>hong@naver.com</p>
+				<p><span>학생</span>&nbsp;&nbsp;${sessionScope.member.userName}</p>
+				<p>${sessionScope.member.userEmail}</p>
 				<p>회원정보수정</p>
 			</div>
 		</div>
 		<div class="menuList">
 			<div class="lmsList">
-				<p class="liBtn clicked" id="home"><a class="" href="${pageContext.request.contextPath}/home/home"><i class="fa-solid fa-house-user"></i>&nbsp;&nbsp;홈</a></p>
+				<p class="liBtn" id="home"><a class="" href="${pageContext.request.contextPath}/home/home"><i class="fa-solid fa-house-user"></i>&nbsp;&nbsp;홈</a></p>
 				<p class="liBtn" id="dashBoard"><a class="" href="${pageContext.request.contextPath}/dashBoard/home"><i class="fa-solid fa-chalkboard"></i>&nbsp;&nbsp;대시보드</a></p>
 				<p class="liBtn" id="timeBoard"><a class="" href="${pageContext.request.contextPath}/timeBoard/home"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;시간표</a></p>
 				<p class="liBtn" id="review"><a class="" href="${pageContext.request.contextPath}/review/home"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;수업후기</a></p>
@@ -54,7 +54,7 @@ $(function(){
 	
 	<div class="mainPart">
 		<div class="topProfile">
-			<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;로그아웃</a>
+			<a href="${pageContext.request.contextPath}/member/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;로그아웃</a>
 			<div class="rightInfo">
 				<p><i class="fa-regular fa-bell" data-bs-toggle="modal" data-bs-target="#notiModal"></i></p>
 				<p><i class="fa-solid fa-circle-user"></i></p>
