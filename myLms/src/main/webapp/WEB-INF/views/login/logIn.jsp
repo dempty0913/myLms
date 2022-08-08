@@ -115,6 +115,26 @@ function loginStd() {
     f.action = "${pageContext.request.contextPath}/member/login";
     f.submit();
 }
+
+function loginTch() {
+    const f = document.tchForm;
+	let str;
+	
+	str = f.userId.value;
+    if(!str) {
+        f.userId.focus();
+        return;
+    }
+
+    str = f.userPwd.value;
+    if(!str) {
+        f.userPwd.focus();
+        return;
+    }
+
+    f.action = "${pageContext.request.contextPath}/member/login";
+    f.submit();
+}
 </script>
 </head>
 <body>
@@ -141,6 +161,7 @@ function loginStd() {
 							<p>아이디 <input type="text" name="userId" class="form-control"></p>
 							<p>비밀번호 <input type="password" name="userPwd" class="form-control"></p>
 						</div>
+						<input type="hidden" name="status" value="0">
 						<button type="button" class="btn loginBtn" onclick="loginStd();">학생으로 로그인</button>
 					</form>
 					<a href="#">회원가입하기</a>
@@ -150,11 +171,14 @@ function loginStd() {
 				</div>
 				
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-					<div class="textBox">
-						<p>아이디 <input type="text" class="form-control"></p>
-						<p>비밀번호 <input type="text" class="form-control"></p>
-					</div>
-					<button type="button" class="btn loginBtn">교직원으로 로그인</button>
+					<form name="tchForm" method="POST">
+						<div class="textBox">
+							<p>아이디 <input type="text" name="userId" class="form-control"></p>
+							<p>비밀번호 <input type="password" name="userPwd" class="form-control"></p>
+						</div>
+						<input type="hidden" name="status" value="1">
+						<button type="button" class="btn loginBtn" onclick="loginTch();">교직원으로 로그인</button>
+					</form>
 					<a href="#">회원가입하기</a>
 				</div>
 			</div>

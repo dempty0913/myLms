@@ -6,6 +6,13 @@
 		SELECT userId, userPwd, userName, userPhone, userEmail, 
 				status, regDate, updateInfo, profileImage
 		FROM member
-		WHERE userId = #{userId}
+		WHERE userId = #{userId} AND status = 0
+	</select>
+	
+	<select id="loginTeacher" parameterType="String" resultType="com.sp.lms.member.Member">
+		SELECT userId, userPwd, userName, userPhone, userEmail, 
+				status, regDate, updateInfo, profileImage
+		FROM member
+		WHERE userId = #{userId} AND status = 1
 	</select>
 </mapper>

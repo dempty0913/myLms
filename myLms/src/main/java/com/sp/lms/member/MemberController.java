@@ -20,10 +20,11 @@ public class MemberController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String loginSubmit(@RequestParam String userId,
 							  @RequestParam String userPwd,
+							  @RequestParam int status,
 							  HttpSession session,
 							  Model model) {
 		
-		Member dto = service.loginMember(userId);
+		Member dto = service.loginMember(userId, status);
 		
 		if (dto == null || !userPwd.equals(dto.getUserPwd())) {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
@@ -39,7 +40,11 @@ public class MemberController {
 		
 		session.setAttribute("member", info);
 		
-		return "redirect:/home/home";
+		if(dto.getStatus() == 0) {
+			return "redirect:/home/home";
+		} else {
+			return "redirect:/teacher/home/home";
+		}
 	}
 	
 	@RequestMapping(value = "logout")
