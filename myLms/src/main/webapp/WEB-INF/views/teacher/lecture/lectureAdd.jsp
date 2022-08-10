@@ -140,7 +140,7 @@
 							</tr>
 						</table>
 						
-						<p class="buttonP"><button type="button">수업 추가하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
+						<p class="buttonP"><button type="button" class="addBtn">수업 추가하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
 					</form>
 				</div>
 				
