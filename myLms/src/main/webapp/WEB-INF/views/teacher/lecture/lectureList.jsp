@@ -164,7 +164,10 @@ legend {
 	font-weight: bold;
 }
 </style>
+<script type="text/javascript">
 
+
+</script>
 
 		<div class="back">
 			<div class="contents">
@@ -191,7 +194,7 @@ legend {
 				<div class="mainLayout">
 					<div class="titlePart">
 						<p class="smallTitle">수업 목록</p>
-						<button type="button" class="btn addBtn">수업 추가</button>
+						<button type="button" class="btn addBtn" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/add'">수업 추가</button>
 					</div>
 					<div class="lectureList">
 						<table>

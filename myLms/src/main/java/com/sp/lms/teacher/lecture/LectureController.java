@@ -14,4 +14,10 @@ public class LectureController {
 		
 		return ".teacher.lecture.lectureList";
 	}
+	
+	@RequestMapping(value = "add", method = RequestMethod.GET)
+	public String lectureAdd(Model model) {
+		
+		return ".teacher.lecture.lectureAdd";
+	}
 }
