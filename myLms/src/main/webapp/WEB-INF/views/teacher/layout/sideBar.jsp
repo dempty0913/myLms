@@ -38,7 +38,7 @@ $(function(){
 		<div class="menuList">
 			<div class="lmsList">
 				<p class="liBtn" id="home"><a class="" href="${pageContext.request.contextPath}/teacher/home/home"><i class="fa-solid fa-house-user"></i>&nbsp;&nbsp;홈</a></p>
-				<p class="liBtn" id="dashBoard"><a class="" href="${pageContext.request.contextPath}/teacher/dashBoard/home"><i class="fa-solid fa-chalkboard"></i>&nbsp;&nbsp;수업</a></p>
+				<p class="liBtn" id="lecture"><a class="" href="${pageContext.request.contextPath}/teacher/lecture/home"><i class="fa-solid fa-chalkboard"></i>&nbsp;&nbsp;수업</a></p>
 				<p class="liBtn" id="timeBoard"><a class="" href="${pageContext.request.contextPath}/teacher/timeBoard/home"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;시간표</a></p>
 				<p class="liBtn" id="mySchedule"><a class="" href="${pageContext.request.contextPath}/teacher/mySchedule/home"><i class="fa-solid fa-calendar"></i>&nbsp;&nbsp;내 일정</a></p>
 			</div>
