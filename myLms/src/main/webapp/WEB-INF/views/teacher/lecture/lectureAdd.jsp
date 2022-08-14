@@ -58,7 +58,60 @@
 .buttonP {
 	text-align: center;
 }
+
+#year {
+	width: 100px;
+	text-align: center;
+	border: 1px solid lightgray;
+	border-radius: 8px;
+}
+
+#semester {
+	width: 100px;
+	text-align: center;
+	border: 1px solid lightgray;
+	border-radius: 8px;
+}
+
 </style>
+<script type="text/javascript">
+$(function() {
+	const now = new Date();
+	const year = now.getFullYear();
+	const month = now.getMonth() + 1;
+	
+	if(month == 13) {
+		month = 1;
+	}
+	
+	let sem;
+	
+	if(month >= 2 && month <8) {
+		sem = 1;
+	} else {
+		sem = 2;
+	}
+	
+	$('#year').val(year);
+	$('#semester').val(sem);
+});
+
+function addLecture () {
+	/*
+	let days = [];
+	$('input:checkbox[name=day]:checked').each(function () {
+	    days.push($(this).val());
+	});
+	let day = days.join(',');
+	console.log(day);
+	*/
+	
+	let f = document.addForm;
+	
+	f.action = "${pageContext.request.contextPath}/teacher/lecture/submit";
+    f.submit();
+};
+</script>
 
 
 		<div class="back">
@@ -72,75 +125,74 @@
 						<table>
 							<tr>
 								<td>수업명</td>
-								<td colspan="3"><input type="text" class="form-control"></td>
+								<td colspan="3"><input type="text" id="lectureName" name="lectureName" class="form-control"></td>
 							</tr>
 							<tr>
 								<td>수업목표</td>
-								<td colspan="3"><textarea class="form-control"></textarea></td>
+								<td colspan="3"><textarea class="form-control" id="lectureInfo" name="lectureInfo"></textarea></td>
 							</tr>
 							<tr>
 								<td>전공</td>
 								<td>
-									<select class="form-select">
-										<option>::선택::</option>
-										<option>글로벌비즈니스</option>
-										<option>광고홍보콘텐츠</option>
-										<option>공공인재</option>
-										<option>경영</option>
-										<option>아동</option>
-										<option>군사</option>
-										<option>금융정보공학</option>
-										<option>전자공학</option>
-										<option>컴퓨터공학</option>
-										<option>소프트웨어</option>
-										<option>나노화학생명</option>
-										<option>물류시스템공학</option>
-										<option>도시공학</option>
-										<option>토목건축공학</option>
-										<option>공연예술</option>
-										<option>음악</option>
-										<option>실용음악</option>
-										<option>무용예술</option>
-										<option>디자인</option>
-										<option>영화영상</option>
-										<option>미용예술</option>
+									<select class="form-select" id="major" name="major">
+										<option value="글로벌비즈니스">글로벌비즈니스</option>
+										<option value="광고홍보콘텐츠">광고홍보콘텐츠</option>
+										<option value="공공인재">공공인재</option>
+										<option value="경영">경영</option>
+										<option value="아동">아동</option>
+										<option value="군사">군사</option>
+										<option value="금융정보공학">금융정보공학</option>
+										<option value="전자공학">전자공학</option>
+										<option value="컴퓨터공학">컴퓨터공학</option>
+										<option value="소프트웨어">소프트웨어</option>
+										<option value="나노화학생명">나노화학생명</option>
+										<option value="물류시스템공학">물류시스템공학</option>
+										<option value="도시공학">도시공학</option>
+										<option value="토목건축공학">토목건축공학</option>
+										<option value="공연예술">공연예술</option>
+										<option value="음악">음악</option>
+										<option value="실용음악">실용음악</option>
+										<option value="무용예술">무용예술</option>
+										<option value="디자인">디자인</option>
+										<option value="영화영상">영화영상</option>
+										<option value="미용예술">미용예술</option>
 									</select>
 								</td>
 								<td>년도 / 학기</td>
-								<td>2022년 2학기</td>
+								<td><input type="text" name="year" id="year" value="" readonly="readonly">&nbsp;년&nbsp;&nbsp;<input type="text" id="semester" name="semester" value="" readonly="readonly">&nbsp;학기</td>
 							</tr>
 							<tr>
 								<td>요일</td>
 								<td>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">월</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">화</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">수</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">목</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">금</label>
+									<input class="form-check-input day" type="checkbox" name="days" value="월" ><label class="form-check-label">&nbsp;월</label>
+									<input class="form-check-input day" type="checkbox" name="days" value="화"><label class="form-check-label">&nbsp;화</label>
+									<input class="form-check-input day" type="checkbox" name="days" value="수"><label class="form-check-label">&nbsp;수</label>
+									<input class="form-check-input day" type="checkbox" name="days" value="목"><label class="form-check-label">&nbsp;목</label>
+									<input class="form-check-input day" type="checkbox" name="days" value="금"><label class="form-check-label">&nbsp;금</label>
 								</td>
 								<td>교시</td>
 								<td>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">21</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">22</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">23</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">24</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">25</label>
-									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">26</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="21"><label class="form-check-label">&nbsp;21</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="22"><label class="form-check-label">&nbsp;22</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="23"><label class="form-check-label">&nbsp;23</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="24"><label class="form-check-label">&nbsp;24</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="25"><label class="form-check-label">&nbsp;25</label>
+									<input class="form-check-input time" type="checkbox" name="times" value="26"><label class="form-check-label">&nbsp;26</label>
 								</td>
 							</tr>
 							<tr>
 								<td>중간고사 날짜</td>
-								<td><input type="text" class="form-control" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" class="form-control" id="midSDate" name="midSDate" placeholder="ex) YYYY/MM/DD"></td>
 								<td>기말고사 날짜</td>
-								<td><input type="text" class="form-control" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY/MM/DD"></td>
 							</tr>
 							<tr>
 								<td>수업계획서</td>
-								<td colspan="3"><input class="form-control" type="file" id="formFile"></td>
+								<td colspan="3"><input class="form-control" name="selectFile" type="file" id="formFile"></td>
 							</tr>
 						</table>
 						
-						<p class="buttonP"><button type="button" class="addBtn">수업 추가하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
+						<p class="buttonP"><button type="button" class="addBtn" onclick="addLecture();">수업 추가하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
 					</form>
 				</div>
 				

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sHome">
+	<select id="sHomeList" parameterType="map" resultType="com.sp.lms.sHome.SHome">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT lectureNum, l.userId, userName, lectureName, lectureInfo, major,
+						year,semester,day,time,l.regDate,midSDate,finSDate
+				FROM lecture l
+				JOIN member m ON l.userId = m.userId
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="sHomeCount" resultType="integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM lecture 
+	</select>
+</mapper>

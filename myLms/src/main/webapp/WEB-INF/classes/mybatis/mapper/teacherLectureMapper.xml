@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tLecture">
+	<insert id="insertLecture" parameterType="com.sp.lms.teacher.lecture.Lecture">
+		INSERT INTO lecture(lectureNum, userId, lectureName, lectureInfo, 
+						major,year,semester,day,time,regDate,midSDate,finSDate)
+		VALUES(lecture_seq.NEXTVAL, #{userId}, #{lectureName}, #{lectureInfo}, #{major}, 
+				#{year}, #{semester}, #{day}, #{time}, SYSDATE, #{midSDate}, #{finSDate})
+	</insert>
+	
+	<select id="lectureCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM lecture 
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="lectureList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Lecture">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT lectureNum, userId, lectureName, lectureInfo, major,
+						year,semester,day,time,regDate,midSDate,finSDate
+				FROM lecture
+				WHERE userId = #{userId}
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+</mapper>

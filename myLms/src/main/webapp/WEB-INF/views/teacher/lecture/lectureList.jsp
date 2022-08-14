@@ -163,9 +163,36 @@ legend {
 	font-size: 22px;
 	font-weight: bold;
 }
+
+.page {
+	margin-top: 15px;
+}
+
 </style>
 <script type="text/javascript">
 
+function detailBtn(year, semester, lectureName, major, day, time, midSDate, finSDate, lectureInfo) {
+	let name = '${sessionScope.member.userName}';
+	name = name + " 교수";
+	let first = year + " - " + semester + "학기";
+	let date = day + " / " + time + "교시";
+	
+	if(! midSDate) {
+		midSDate = "미정";
+	}
+	if(! finSDate) {
+		finSDate = "미정";
+	}
+	
+	$('#first').text(first);
+	$('#subject').text(lectureName);
+	$('#major').text(major);
+	$('#name').text(name);
+	$('#date').text(date);
+	$('#midDate span').text(midSDate);
+	$('#finDate span').text(finSDate);
+	$('#info').text(lectureInfo);
+}
 
 </script>
 
@@ -204,17 +231,22 @@ legend {
 								<td>교시</td>
 								<td>상세</td>
 							</tr>
-							<c:forEach var="i" begin="1" end="5">
+							<c:forEach var="li" items="${list}">
 								<tr>
-									<td>자바 프로그래밍</td>
-									<td>월, 금</td>
-									<td>21, 22교시</td>
-									<td><button type="button" class="btn detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
+									<td>${li.lectureName}</td>
+									<td>${li.day}</td>
+									<td>${li.time}교시</td>
+									<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}');" class="btn detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
 								</tr>
 							</c:forEach>
 						</table>
 					</div>
+					<div class="page">
+						${dataCount == 0 ? "등록된 게시글이 없습니다." : paging}
+					</div>
 				</div>
+			
+				
 			</div>
 		</div>
 
@@ -233,12 +265,14 @@ legend {
       <div class="modalContent py-4 px-4">
 	      <div class="modal-body">
 			<div class="leftContent">
-				<p>2022 - 2학기</p>
-				<p>자바 프로그래밍</p>
+				<p id="first"></p>
+				<p id="subject"></p>
 				<ul>
-					<li>컴퓨터공학</li>
-					<li>김자바 교수</li>
-					<li>21, 22교시</li>
+					<li id="major"></li>
+					<li id="name"></li>
+					<li id="date"></li>
+					<li id="midDate">중간고사 날짜 : <span></span></li>
+					<li id="finDate">기말고사 날짜 : <span></span></li>
 				</ul>
 			</div>
 			
@@ -251,7 +285,7 @@ legend {
 	      <div class="goal">
 		      <fieldset class="border pb-4 px-4">
 		      	<legend class="w-auto">강의 목표</legend>
-		      	<p>스프링 부트와 JPA를 활용해서 웹 애플리케이션을 설계하고 개발합니다. 이 과정을 통해 스프링 부트와 JPA를 실무에서 어떻게 활용해야 하는지 이해할 수 있습니다.</p>
+		      	<p id="info"></p>
 		      </fieldset>
 	      </div>
       </div>
