@@ -148,3 +148,8 @@ legend {
 
 .page {
 }
+
+.lectureList button:disabled {
+  	background: lightgray;
+  	color: black;
+}

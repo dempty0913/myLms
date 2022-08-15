@@ -14,6 +14,7 @@ public class SHome {
 	private String regDate;
 	private String midSDate;
 	private String finSDate;
+	private int status;
 	
 	public int getLectureNum() {
 		return lectureNum;
@@ -92,6 +93,12 @@ public class SHome {
 	}
 	public void setFinSDate(String finSDate) {
 		this.finSDate = finSDate;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

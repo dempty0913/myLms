@@ -44,5 +44,35 @@ public class LectureServiceImpl implements LectureService {
 		}
 		return count;
 	}
+
+	@Override
+	public Lecture lectureDetail(int lectureNum) {
+		Lecture dto = null;
+		try {
+			dto = dao.selectOne("tLecture.lectureDetail", lectureNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void updateLecture(Lecture dto) throws Exception {
+		try {
+			dao.updateData("tLecture.updateLecture", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void deleteLecture(int lectureNum) throws Exception {
+		try {
+			dao.deleteData("tLecture.deleteLecture", lectureNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

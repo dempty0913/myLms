@@ -171,7 +171,7 @@ legend {
 </style>
 <script type="text/javascript">
 
-function detailBtn(year, semester, lectureName, major, day, time, midSDate, finSDate, lectureInfo) {
+function detailBtn(lectureNum, year, semester, lectureName, major, day, time, midSDate, finSDate, lectureInfo) {
 	let name = '${sessionScope.member.userName}';
 	name = name + " 교수";
 	let first = year + " - " + semester + "학기";
@@ -192,6 +192,24 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 	$('#midDate span').text(midSDate);
 	$('#finDate span').text(finSDate);
 	$('#info').text(lectureInfo);
+	
+	$('#updateBtn').val(lectureNum);
+	$('#deleteBtn').val(lectureNum);
+	
+}
+
+function updateLecture() {
+	let lectureNum = $('#updateBtn').val();
+	
+	location.href = '${pageContext.request.contextPath}/teacher/lecture/update?lectureNum='+lectureNum;
+}
+
+function deleteLecture() {
+	let lectureNum = $('#deleteBtn').val();
+	
+	if(confirm("수업을 삭제 하시겠습니까 ? ")) {
+		location.href = '${pageContext.request.contextPath}/teacher/lecture/delete?lectureNum='+lectureNum;
+	}
 }
 
 </script>
@@ -236,7 +254,7 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 									<td>${li.lectureName}</td>
 									<td>${li.day}</td>
 									<td>${li.time}교시</td>
-									<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}');" class="btn detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
+									<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.lectureNum}', '${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}');" class="btn detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -277,8 +295,8 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 			</div>
 			
 			<div class="rightContent">
-				<button type="button" class="updateBtn">수정</button>
-				<button type="button" class="deleteBtn">삭제</button>
+				<button type="button" id="updateBtn" class="updateBtn" value="" onclick="updateLecture();">수정</button>
+				<button type="button" id="deleteBtn" class="deleteBtn" value="" onclick="deleteLecture();">삭제</button>
 			</div>
 	      </div>
 	      

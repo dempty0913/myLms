@@ -36,4 +36,13 @@ public class SHomeServiceImpl implements SHomeService {
 		return count;
 	}
 
+	@Override
+	public void addLecture(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("sHome.addLecture", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

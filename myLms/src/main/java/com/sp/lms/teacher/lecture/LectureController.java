@@ -83,10 +83,12 @@ public class LectureController {
 	@RequestMapping(value = "add", method = RequestMethod.GET)
 	public String lectureAdd(Model model) {
 		
+		model.addAttribute("mode", "add");
+		
 		return ".teacher.lecture.lectureAdd";
 	}
 	
-	@RequestMapping(value = "submit", method = RequestMethod.POST)
+	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public String lectureSubmit(Lecture dto, HttpSession session) {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
@@ -102,6 +104,52 @@ public class LectureController {
 	        
 	        service.insertLecture(dto);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/teacher/lecture/home";
+	}
+	
+	@RequestMapping(value = "update", method = RequestMethod.GET)
+	public String lectureUpdate(@RequestParam int lectureNum, Model model) {
+		
+		Lecture dto = service.lectureDetail(lectureNum);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("mode", "update");
+		
+		return ".teacher.lecture.lectureAdd";
+	}
+	
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String updateSubmit(Lecture dto, HttpSession session) {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			dto.setUserId(info.getUserId());
+			
+			List<String> list = dto.getDays();
+			String day = String.join(",", list);
+	        list = dto.getTimes();
+	        String time = String.join(",", list);
+	        dto.setDay(day);
+	        dto.setTime(time);
+	        
+	        service.updateLecture(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/teacher/lecture/home";
+	}
+	
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String deleteLecture(@RequestParam int lectureNum) {
+		
+		try {
+			service.deleteLecture(lectureNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

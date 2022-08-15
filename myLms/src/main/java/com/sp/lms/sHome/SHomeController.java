@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.lms.common.MyUtil;
+import com.sp.lms.member.SessionInfo;
 
 @Controller("home.sHomeController")
 @RequestMapping("/home/*")
@@ -73,6 +74,27 @@ public class SHomeController {
 		model.addAttribute("rows", rows);
 
 		return ".main.home";
+	}
+	
+	@RequestMapping(value = "add", method = RequestMethod.GET)
+	public String addLecture(@RequestParam int lectureNum, HttpSession session) {
+		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("lectureNum", lectureNum);
+			
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String userId = info.getUserId();
+			
+			map.put("userId", userId);
+			
+			service.addLecture(map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/home/home";
 	}
 	
 }

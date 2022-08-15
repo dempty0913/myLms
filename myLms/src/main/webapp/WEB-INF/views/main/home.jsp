@@ -47,6 +47,12 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 	$('#finDate span').text(finSDate);
 	$('#info').text(lectureInfo);
 }
+
+function addLecture() {
+	let lectureNum = $('.addBtn').val();
+	
+	location.href = "${pageContext.request.contextPath}/home/add?lectureNum="+lectureNum;
+}
 </script>
 
 		<div class="contents">
@@ -71,6 +77,7 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 				<tr>
 					<td>전공</td>
 					<td>수업명</td>
+					<td>요일</td>
 					<td>시간</td>
 					<td>교수명</td>
 					<td>담기</td>
@@ -80,10 +87,18 @@ function detailBtn(year, semester, lectureName, major, day, time, midSDate, finS
 					<tr>
 						<td>${li.major}</td>
 						<td>${li.lectureName}</td>
+						<td>${li.day}
 						<td>${li.time} 교시</td>
 						<td>${li.userName} 교수</td>
-						<td><button type="button" class="addBtn">담기</button></td>
-						<td><button type="button"value="${li.lectureNum}" onclick="detailBtn('${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}', '${li.userName}');" class="detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
+						<c:choose>
+							<c:when test="${li.status == 0}">
+								<td><button type="button" value="${li.lectureNum}" class="addBtn" disabled="disabled">담기</button></td>
+							</c:when>
+							<c:when test="${li.status == 1}">
+								<td><button type="button" value="${li.lectureNum}" class="addBtn" onclick="addLecture();">담기</button></td>
+							</c:when>
+						</c:choose>
+						<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}', '${li.userName}');" class="detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
 					</tr>				
 				</c:forEach>
 			</table>

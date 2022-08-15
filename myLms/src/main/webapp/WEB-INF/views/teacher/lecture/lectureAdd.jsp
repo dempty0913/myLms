@@ -96,6 +96,26 @@ $(function() {
 	$('#semester').val(sem);
 });
 
+$(function() {
+	let daysStr = "${dto.day}";
+	let days = daysStr.split(',');
+	
+	for(let d in days){
+		$("input:checkbox[name='days'][value="+days[d]+"]").prop("checked", true);
+	}
+	
+	let timesStr = "${dto.time}";
+	let times = timesStr.split(',');
+	
+	for(let t in times){
+		$("input:checkbox[name='times'][value="+times[t]+"]").prop("checked", true);
+	}
+	
+	let major = "${dto.major}";
+	$("#major").val(major).prop("selected", true);
+	
+});
+
 function addLecture () {
 	/*
 	let days = [];
@@ -108,7 +128,7 @@ function addLecture () {
 	
 	let f = document.addForm;
 	
-	f.action = "${pageContext.request.contextPath}/teacher/lecture/submit";
+	f.action = "${pageContext.request.contextPath}/teacher/lecture/${mode}";
     f.submit();
 };
 </script>
@@ -117,7 +137,7 @@ function addLecture () {
 		<div class="back">
 			<div class="contents">
 				<div class="title">
-					<p>수업추가</p>
+					<p>수업${mode == "add" ? "추가" : "수정"}</p>
 				</div>
 				
 				<div class="formPart">
@@ -125,11 +145,11 @@ function addLecture () {
 						<table>
 							<tr>
 								<td>수업명</td>
-								<td colspan="3"><input type="text" id="lectureName" name="lectureName" class="form-control"></td>
+								<td colspan="3"><input type="text" id="lectureName" name="lectureName" value="${dto.lectureName}" class="form-control"></td>
 							</tr>
 							<tr>
 								<td>수업목표</td>
-								<td colspan="3"><textarea class="form-control" id="lectureInfo" name="lectureInfo"></textarea></td>
+								<td colspan="3"><textarea class="form-control" id="lectureInfo" name="lectureInfo">${dto.lectureInfo}</textarea></td>
 							</tr>
 							<tr>
 								<td>전공</td>
@@ -159,7 +179,7 @@ function addLecture () {
 									</select>
 								</td>
 								<td>년도 / 학기</td>
-								<td><input type="text" name="year" id="year" value="" readonly="readonly">&nbsp;년&nbsp;&nbsp;<input type="text" id="semester" name="semester" value="" readonly="readonly">&nbsp;학기</td>
+								<td><input type="text" name="year" id="year" value="${dto.year}" readonly="readonly">&nbsp;년&nbsp;&nbsp;<input type="text" id="semester" name="semester" value="${dto.semester}" readonly="readonly">&nbsp;학기</td>
 							</tr>
 							<tr>
 								<td>요일</td>
@@ -182,17 +202,19 @@ function addLecture () {
 							</tr>
 							<tr>
 								<td>중간고사 날짜</td>
-								<td><input type="text" class="form-control" id="midSDate" name="midSDate" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" value="${dto.midSDate}" class="form-control" id="midSDate" name="midSDate" placeholder="ex) YYYY/MM/DD"></td>
 								<td>기말고사 날짜</td>
-								<td><input type="text" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" value="${dto.finSDate}" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY/MM/DD"></td>
 							</tr>
 							<tr>
 								<td>수업계획서</td>
 								<td colspan="3"><input class="form-control" name="selectFile" type="file" id="formFile"></td>
 							</tr>
 						</table>
-						
-						<p class="buttonP"><button type="button" class="addBtn" onclick="addLecture();">수업 추가하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
+						<c:if test="${mode == 'update'}">
+							<input type="hidden" name="lectureNum" value="${dto.lectureNum}">
+						</c:if>
+						<p class="buttonP"><button type="button" class="addBtn" onclick="addLecture();">수업 ${mode == "add" ? "추가" : "수정"}하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/home'">취소</button></p>
 					</form>
 				</div>
 				

@@ -25,4 +25,19 @@
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
+	
+	<select id="lectureDetail" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Lecture">
+		SELECT * FROM lecture WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<update id="updateLecture" parameterType="com.sp.lms.teacher.lecture.Lecture">
+		UPDATE lecture SET lectureName=#{lectureName}, lectureInfo=#{lectureInfo}, 
+						major=#{major},year=#{year},semester=#{semester},
+						day=#{day},time=#{time},midSDate=#{midSDate},finSDate=#{finSDate}
+		WHERE lectureNum=#{lectureNum}
+	</update>
+	
+	<delete id="deleteLecture" parameterType="integer">
+		DELETE FROM lecture WHERE lectureNum = #{lectureNum}
+	</delete>
 </mapper>
