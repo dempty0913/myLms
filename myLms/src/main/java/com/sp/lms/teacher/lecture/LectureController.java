@@ -1,5 +1,6 @@
 package com.sp.lms.teacher.lecture;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,5 +156,47 @@ public class LectureController {
 		}
 		
 		return "redirect:/teacher/lecture/home";
+	}
+	
+	@RequestMapping(value = "videoList", method = RequestMethod.GET)
+	public String videoList(HttpServletRequest req,
+							  HttpSession session, 
+							  Model model) {
+		
+		
+		
+		return ".teacher.lecture.lectureVideo";
+	}
+	
+	@RequestMapping(value = "videoAdd", method = RequestMethod.GET)
+	public String videoAdd(HttpSession session, Model model) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		map.put("userId", userId);
+		List<Lecture> list = service.lectureNameList(map);
+		
+		model.addAttribute("mode", "add");
+		model.addAttribute("list", list);
+		
+		return ".teacher.lecture.videoAdd";
+	}
+	
+	@RequestMapping(value = "videoAdd", method = RequestMethod.POST)
+	public String videoSubject(HttpSession session, Video dto) {
+		
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + File.separator + "uploads" + File.separator + "video";
+			
+			service.insertVideo(dto, pathname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/teacher/lecture/videoList";
 	}
 }

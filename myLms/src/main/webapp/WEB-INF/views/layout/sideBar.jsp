@@ -7,8 +7,12 @@
 $(function(){
 	
 	let uri = "${requestScope["javax.servlet.forward.request_uri"]}";
-	
 	let name = uri.substr(5);
+
+	let position = name.indexOf('/');
+	if(position != -1){
+		name = name.substr(0,position);
+	}
 	
 	if(name.substr(0,4) == "home") {
 		$('#home').removeClass("clicked");

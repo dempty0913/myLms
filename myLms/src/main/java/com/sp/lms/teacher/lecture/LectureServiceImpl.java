@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.lms.common.FileManager;
 import com.sp.lms.common.dao.CommonDAO;
 
 @Service("teacher.lecture.lectureService")
@@ -13,6 +14,9 @@ public class LectureServiceImpl implements LectureService {
 
 	@Autowired
 	private CommonDAO dao;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	@Override
 	public void insertLecture(Lecture dto) throws Exception {
@@ -70,6 +74,29 @@ public class LectureServiceImpl implements LectureService {
 	public void deleteLecture(int lectureNum) throws Exception {
 		try {
 			dao.deleteData("tLecture.deleteLecture", lectureNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<Lecture> lectureNameList(Map<String, Object> map) {
+		List<Lecture> list = null;
+		try {
+			list = dao.selectList("tLecture.lectureNameList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void insertVideo(Video dto, String pathname) throws Exception {
+		try {
+			String videoFileName = fileManager.doFileUpload(dto.getVideoSelectFile(), pathname);
+			dto.setVideoFileName(videoFileName);
+			
+			dao.insertData("tLecture.insertVideo", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

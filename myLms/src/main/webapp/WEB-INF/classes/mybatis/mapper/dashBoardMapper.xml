@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dash">
+	<select id="dashBoardList" parameterType="map" resultType="com.sp.lms.dashBoard.DashBoard">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT lectureApplyNum, l.lectureNum, l.userId, userName, lectureName, lectureInfo, major,
+						year,semester,day,time,l.regDate,midSDate,finSDate, NVL(a.status, 0) status
+				FROM lecture l
+				JOIN member m ON l.userId = m.userId
+				JOIN lectureApply a ON l.lectureNum = a.lectureNum
+				WHERE a.userId = #{userId}
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM lectureApply WHERE userId=#{userId}
+	</select>
+	
+	<delete id="deleteDash" parameterType="integer">
+		DELETE FROM lectureApply WHERE lectureApplyNum=#{lectureApplyNum}
+	</delete>
+	
+	<select id="detailList" parameterType="integer" resultType="com.sp.lms.dashBoard.DashBoard">
+		SELECT lectureNum, lectureName, userName, year, semester
+		FROM lecture l
+		JOIN member m ON l.userId = m.userId
+		WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="videoList" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT l.lectureNum, v.videoFileNum, videoName, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, videoTotalTime, 
+						videoFileName, saveTime, p.status
+				FROM lectureApply a
+				JOIN lecture l ON a.lectureNum = l.lectureNum
+				JOIN lectureVideoFile v ON l.lectureNum = v.lectureNum
+				LEFT OUTER JOIN pauseSave p ON a.lectureApplyNum = p.lectureApplyNum
+				WHERE l.lectureNum=#{lectureNum} AND a.userId=#{userId}
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="videoCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM lectureVideoFile WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="videoArticle" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
+		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate
+		FROM lectureVideoFile
+		WHERE videoFileNum=#{videoFileNum}
+	</select>
+	
+	
+</mapper>

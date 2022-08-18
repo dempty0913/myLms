@@ -26,6 +26,13 @@
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
+	<select id="lectureNameList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Lecture">
+		SELECT lectureNum, userId, lectureName, lectureInfo, major,
+				year,semester,day,time,regDate,midSDate,finSDate
+		FROM lecture
+		WHERE userId = #{userId}
+	</select>
+	
 	<select id="lectureDetail" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Lecture">
 		SELECT * FROM lecture WHERE lectureNum=#{lectureNum}
 	</select>
@@ -40,4 +47,11 @@
 	<delete id="deleteLecture" parameterType="integer">
 		DELETE FROM lecture WHERE lectureNum = #{lectureNum}
 	</delete>
+	
+	
+	<!-- 영상 -->
+	<insert id="insertVideo" parameterType="com.sp.lms.teacher.lecture.Video">
+		INSERT INTO lectureVideoFile(videoFileNum, lectureNum, videoTotalTime, videoName, videoFileName, regDate)
+		VALUES (lectureVideoFile_seq.NEXTVAL, #{lectureNum}, #{videoTotalTime}, #{videoName}, #{videoFileName}, SYSDATE)
+	</insert>
 </mapper>
