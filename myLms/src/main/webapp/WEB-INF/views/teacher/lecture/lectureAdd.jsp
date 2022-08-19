@@ -202,9 +202,9 @@ function addLecture () {
 							</tr>
 							<tr>
 								<td>중간고사 날짜</td>
-								<td><input type="text" value="${dto.midSDate}" class="form-control" id="midSDate" name="midSDate" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" value="${dto.midSDate}" class="form-control" id="midSDate" name="midSDate" placeholder="ex) YYYY-MM-DD"></td>
 								<td>기말고사 날짜</td>
-								<td><input type="text" value="${dto.finSDate}" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY/MM/DD"></td>
+								<td><input type="text" value="${dto.finSDate}" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY-MM-DD"></td>
 							</tr>
 							<tr>
 								<td>수업계획서</td>

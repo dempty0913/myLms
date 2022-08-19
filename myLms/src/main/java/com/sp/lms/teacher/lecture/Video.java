@@ -10,6 +10,8 @@ public class Video {
 	private String videoFileName;
 	private String regDate;
 	
+	private String lectureName;
+	
 	private MultipartFile videoSelectFile;
 	
 	public int getVideoFileNum() {
@@ -53,6 +55,12 @@ public class Video {
 	}
 	public void setVideoSelectFile(MultipartFile videoSelectFile) {
 		this.videoSelectFile = videoSelectFile;
+	}
+	public String getLectureName() {
+		return lectureName;
+	}
+	public void setLectureName(String lectureName) {
+		this.lectureName = lectureName;
 	}
 	
 	

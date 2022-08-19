@@ -101,5 +101,42 @@ public class LectureServiceImpl implements LectureService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<Video> videoList(Map<String, Object> map) {
+		List<Video> dto = null;
+		try {
+			dto = dao.selectList("tLecture.videoList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void insertProject(Project dto, String pathname) throws Exception {
+		try {
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if (saveFilename != null) {
+				dto.setSaveFileName(saveFilename);
+				dto.setOriginalFileName(dto.getSelectFile().getOriginalFilename());
+			}
+			
+			dao.insertData("tLecture.insertProject", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<Project> projectList(Map<String, Object> map) {
+		List<Project> list = null;
+		try {
+			list = dao.selectList("tLecture.projectList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 }

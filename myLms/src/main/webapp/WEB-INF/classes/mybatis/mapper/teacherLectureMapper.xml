@@ -54,4 +54,34 @@
 		INSERT INTO lectureVideoFile(videoFileNum, lectureNum, videoTotalTime, videoName, videoFileName, regDate)
 		VALUES (lectureVideoFile_seq.NEXTVAL, #{lectureNum}, #{videoTotalTime}, #{videoName}, #{videoFileName}, SYSDATE)
 	</insert>
+	
+	<select id="videoList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Video">
+		SELECT l.lectureNum, videoFileNum, lectureName, videoName, videoTotalTime, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate
+		FROM lecture l
+		JOIN lectureVideoFile v ON l.lectureNum=v.lectureNum
+		WHERE userId=#{userId}
+	</select>
+	
+	
+	<!-- 과제 -->
+	<insert id="insertProject" parameterType="com.sp.lms.teacher.lecture.Project">
+		<selectKey keyProperty="projectNum" resultType="Integer" order="BEFORE">
+			SELECT project_seq.NEXTVAL FROM dual
+		</selectKey>
+		INSERT ALL 
+			INTO project(projectNum, lectureNum, projectSubject, projectContent, regDate, eDate)
+			VALUES(#{projectNum}, #{lectureNum}, #{projectSubject}, #{projectContent}, SYSDATE, #{eDate})
+		
+			INTO projectFile(projectFileNum, projectNum, originalFileName, saveFileName)
+			VALUES(projectFile_seq.NEXTVAL, #{projectNum}, #{originalFileName, jdbcType=VARCHAR}, #{saveFileName, jdbcType=VARCHAR})
+	
+		SELECT * FROM dual
+	</insert>
+	
+	<select id="projectList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Project">
+		SELECT projectNum, p.lectureNum, projectSubject, eDate, lectureName, TO_CHAR(p.regDate, 'YYYY-MM-DD') regDate
+		FROM project p
+		JOIN lecture l ON p.lectureNum=l.lectureNum
+		WHERE userId=#{userId}
+	</select>
 </mapper>

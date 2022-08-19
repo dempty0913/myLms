@@ -13,4 +13,8 @@ public interface LectureService {
 	public void deleteLecture(int lectureNum) throws Exception;
 	
 	public void insertVideo(Video dto, String pathname) throws Exception;
+	public List<Video> videoList(Map<String, Object> map);
+	
+	public void insertProject(Project dto, String pathname) throws Exception;
+	public List<Project> projectList(Map<String, Object> map);
 }

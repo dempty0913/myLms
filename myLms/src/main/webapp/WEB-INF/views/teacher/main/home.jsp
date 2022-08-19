@@ -84,10 +84,10 @@
 						<p class="boxTitle">이번 학기 수업</p>
 						<hr>
 						<div class="list">
-							<c:forEach var="i" begin="1" end="5">
+							<c:forEach var="li" items="${list}">
 								<div class="listItem">
-									<p>자바 프로그래밍</p>
-									<p>월, 수 21, 22교시</p>
+									<p>${li.lectureName}</p>
+									<p>${li.day} / ${li.time}교시</p>
 								</div>
 							</c:forEach>
 						</div>
@@ -95,7 +95,7 @@
 					
 					<div class="mainRight">
 						<div class="box box2">
-							<p class="boxTitle">최근 등록한 수업</p>
+							<p class="boxTitle">최근 등록한 영상</p>
 							<div class="listTitle">
 								<p>수업</p>
 								<p>제목</p>
@@ -103,11 +103,11 @@
 							</div>
 							<hr>
 							<div class="list2">
-								<c:forEach var="i" begin="1" end="3">
+								<c:forEach var="vd" items="${videoList}" begin="0" end="3">
 									<div class="listItem2">
-										<p>자바 프로그래밍</p>
-										<p>자바란 무엇인가?</p>
-										<p>2022-07-08</p>
+										<p>${vd.lectureName}</p>
+										<p>${vd.videoName}</p>
+										<p>${vd.regDate}</p>
 									</div>
 								</c:forEach>
 							</div>
@@ -123,11 +123,11 @@
 							</div>
 							<hr>
 							<div class="list2">
-								<c:forEach var="i" begin="1" end="3">
+								<c:forEach var="pr" items="${projectList}" begin="0" end="3">
 									<div class="listItem2">
-										<p>자바 프로그래밍</p>
-										<p>자바란 무엇인가?</p>
-										<p>2022-07-08</p>
+										<p>${pr.lectureName}</p>
+										<p>${pr.projectSubject}</p>
+										<p>${pr.regDate}</p>
 									</div>
 								</c:forEach>
 							</div>

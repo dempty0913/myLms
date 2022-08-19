@@ -163,7 +163,23 @@ public class LectureController {
 							  HttpSession session, 
 							  Model model) {
 		
-		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String userId = info.getUserId();
+			
+			map.put("userId", userId);
+			
+			List<Video> videoList = service.videoList(map);
+			List<Lecture> list = service.lectureNameList(map);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("videoList", videoList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return ".teacher.lecture.lectureVideo";
 	}
@@ -198,5 +214,66 @@ public class LectureController {
 		}
 		
 		return "redirect:/teacher/lecture/videoList";
+	}
+	
+	
+	
+	@RequestMapping(value = "projectList", method = RequestMethod.GET)
+	public String projectList(HttpServletRequest req,
+							  HttpSession session, 
+							  Model model) {
+		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String userId = info.getUserId();
+			
+			map.put("userId", userId);
+			
+			List<Lecture> list = service.lectureNameList(map);
+			List<Project> projectList = service.projectList(map);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("projectList", projectList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return ".teacher.lecture.projectList";
+	}
+	
+	@RequestMapping(value = "project/add", method = RequestMethod.GET)
+	public String projectAdd(HttpSession session, Model model) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		map.put("userId", userId);
+		List<Lecture> list = service.lectureNameList(map);
+		
+		model.addAttribute("mode", "add");
+		model.addAttribute("list", list);
+		
+		return ".teacher.lecture.projectAdd";
+	}
+	
+	@RequestMapping(value = "project/add", method = RequestMethod.POST)
+	public String projectSubmit(Project dto, HttpSession session) {
+		
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + File.separator + "uploads" + File.separator + "project";
+	       
+			service.insertProject(dto, pathname);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/teacher/lecture/projectList";
 	}
 }

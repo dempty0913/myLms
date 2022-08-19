@@ -91,6 +91,11 @@
 	padding: 11px 10px;
 }
 
+.line {
+	display: flex;
+	justify-content: space-between;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -147,8 +152,8 @@ function deleteLecture() {
 					<div class="middleLeft">
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/teacher/lecture/home">수업</a></li>
-							<li>영상</li>
-							<li><a href="${pageContext.request.contextPath}/teacher/lecture/projectList">과제</a></li>
+							<li><a href="${pageContext.request.contextPath}/teacher/lecture/videoList">영상</a></li>
+							<li>과제</li>
 							<li>성적</li>
 						</ul>
 					</div>
@@ -161,8 +166,8 @@ function deleteLecture() {
 				
 				<div class="mainLayout">
 					<div class="titlePart">
-						<p class="smallTitle">강의 업로드 목록</p>
-						<button type="button" class="btn addBtn" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/videoAdd'">영상 업로드</button>
+						<p class="smallTitle">과제 업로드 목록</p>
+						<button type="button" class="btn addBtn" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/project/add'">과제 등록</button>
 					</div>
 					<div class="lectureList">
 						
@@ -176,10 +181,13 @@ function deleteLecture() {
 									</h2>
 									<div id="panelsStayOpen-collapse${status.index}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
 										<div class="accordion-body">
-											<c:forEach var="vd" items="${videoList}">
-												<c:if test="${li.lectureNum == vd.lectureNum}">
+											<c:forEach var="pl" items="${projectList}">
+												<c:if test="${li.lectureNum == pl.lectureNum}">
 													<div class="accordion-unit">
-														<a href="#"><i class="fa-solid fa-circle-play"></i>&nbsp;&nbsp;${vd.videoName}(${vd.videoTotalTime})</a>
+														<a href="#" class="line">
+															<p><i class="fa-solid fa-book"></i>&nbsp;&nbsp;${pl.projectSubject}</p>
+															<p>${pl.eDate}까지</p>
+														</a>
 													</div>
 													<hr>
 												</c:if>
