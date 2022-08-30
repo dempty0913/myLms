@@ -52,6 +52,11 @@ public class SHomeController {
 		int start = (currentPage - 1) * rows + 1;
 		int end = currentPage * rows;
 		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		map.put("userId", userId);
+		
 		map.put("start", start);
 		map.put("end", end);
 		

@@ -179,7 +179,7 @@ function deleteLecture() {
 											<c:forEach var="vd" items="${videoList}">
 												<c:if test="${li.lectureNum == vd.lectureNum}">
 													<div class="accordion-unit">
-														<a href="#"><i class="fa-solid fa-circle-play"></i>&nbsp;&nbsp;${vd.videoName}(${vd.videoTotalTime})</a>
+														<a href="${pageContext.request.contextPath}/teacher/lecture/vArticle?videoFileNum=${vd.videoFileNum}"><i class="fa-solid fa-circle-play"></i>&nbsp;&nbsp;${vd.videoName}(${vd.videoTotalTime})</a>
 													</div>
 													<hr>
 												</c:if>

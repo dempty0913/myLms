@@ -4,6 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
+.back {
+	overflow-y:scroll; height:100vh;
+	font-family: 'GmarketSansMedium';
+}
+
 .top {
 	width: 100%;
 	padding: 30px 80px;
@@ -119,9 +124,16 @@ $(function(){
 });
 
 function listPage(page) {
-	let url = "${pageContext.request.contextPath}/dashBoard/videoList";
-	let query = "lectureNum=${dto.lectureNum}";
-	let selector = ".detailList";
+	let url, query, selector;
+	if(${mode == 1}){
+		url = "${pageContext.request.contextPath}/dashBoard/videoList";
+		query = "lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}";
+		selector = ".detailList";
+	} else {
+		url = "${pageContext.request.contextPath}/dashBoard/projectList";
+		query = "lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}";
+		selector = ".detailList";
+	}
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -132,20 +144,21 @@ function listPage(page) {
 </script>
 
 
-		
-		<div class="lecture">
-			<div class="top">
-				<p>${dto.year} - ${dto.semester}학기</p>
-				<div class="topBottom">
-					<p>${dto.lectureName}</p>
-					<p>${dto.userName} 교수</p>
+		<div class="back">
+			<div class="lecture">
+				<div class="top">
+					<p>${dto.year} - ${dto.semester}학기</p>
+					<div class="topBottom">
+						<p>${dto.lectureName}</p>
+						<p>${dto.userName} 교수</p>
+					</div>
 				</div>
+				
 			</div>
 			
-		</div>
-		
-		<div class="detailList">
-			
+			<div class="detailList">
+				
+			</div>
 		</div>
 
 	</div>

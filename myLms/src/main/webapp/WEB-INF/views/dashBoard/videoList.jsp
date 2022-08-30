@@ -9,7 +9,7 @@
 		<a class="nav-link active" aria-current="page" href="#">수업</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="#">과제</a>
+		<a class="nav-link" href="${pageContext.request.contextPath}/dashBoard/detail?mode=2&lectureNum=${lectureNum}&lectureApplyNum=${lectureApplyNum}">과제</a>
 	</li>
 </ul>
 
@@ -28,13 +28,13 @@
 		</thead>
 		<c:forEach var="li" items="${videoList}">
 			<tr onclick="#">
-				<td>1</td>
+				<td>${li.listNum}</td>
 				<td>${li.videoName}</td>
 				<td>${li.regDate}</td>
 				<td>${li.videoTotalTime}</td>
 				<td>${li.saveTime}</td>
 				<td>${li.videoTotalTime == li.saveTime ? "완료" : "미완" }</td>
-				<td><button type="button" class="watchBtn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/article?videoFileNum=${li.videoFileNum}'">듣기</button>
+				<td><button type="button" class="watchBtn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/article?videoFileNum=${li.videoFileNum}&lectureApplyNum=${lectureApplyNum}'">듣기</button>
 			</tr>				
 		</c:forEach>
 	</table>

@@ -138,5 +138,131 @@ public class LectureServiceImpl implements LectureService {
 		}
 		return list;
 	}
+
+	@Override
+	public Video videoArticle(Map<String, Object> map) {
+		Video dto = null;
+		try {
+			dto = dao.selectOne("tLecture.videoArticle", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void updateVideo(Video dto, String pathname) throws Exception {
+		try {
+			String videoFileName = fileManager.doFileUpload(dto.getVideoSelectFile(), pathname);
+			
+			if (videoFileName != null) {
+				if(dto.getVideoFileName() != null && dto.getVideoFileName().length() != 0) {
+					fileManager.doFileDelete(dto.getVideoFileName(), pathname);
+				}
+				
+				dto.setVideoFileName(videoFileName);
+			}
+			
+			dao.insertData("tLecture.updateVideo", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Project projectDetail(Map<String, Object> map) {
+		Project dto = null;
+		try {
+			dto = dao.selectOne("tLecture.projectDetail", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void updateProject(Project dto, String pathname) throws Exception {
+		try {
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if (saveFilename != null) {
+				if(dto.getSaveFileName() != null && dto.getSaveFileName().length() != 0) {
+					fileManager.doFileDelete(dto.getSaveFileName(), pathname);
+				}
+				
+				dto.setSaveFileName(saveFilename);
+				dto.setOriginalFileName(dto.getSelectFile().getOriginalFilename());
+			}
+			
+			dao.updateData("tLecture.updateProject", dto);
+			if (saveFilename != null) {
+				dao.updateData("tLecture.updateProjectFile", dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteProject(int projectNum) throws Exception {
+		try {
+			dao.deleteData("tLecture.deleteProjectFile", projectNum);
+			dao.deleteData("tLecture.deleteProject", projectNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int submitCount(Map<String, Object> map) {
+		int result = 0;
+		try {
+			result = dao.selectOne("tLecture.submitCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public void deleteVideo(int videoFileNum) throws Exception {
+		try {
+			dao.deleteData("tLecture.deleteVideo", videoFileNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int applyCount(int lectureNum) {
+		int result = 0;
+		try {
+			result = dao.selectOne("tLecture.applyCount", lectureNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Submit> applyList(int projectNum) {
+		List<Submit> list = null;
+		try {
+			list = dao.selectList("tLecture.applyList", projectNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public Submit submitDetail(int submitNum) {
+		Submit dto = null;
+		try {
+			dto = dao.selectOne("tLecture.submitDetail", submitNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
 	
 }

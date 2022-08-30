@@ -91,9 +91,9 @@ $(function() {
 });
 
 
-function detailDash(lectureNum) {
+function detailDash(lectureNum, lectureApplyNum) {
 	
-	location.href = "${pageContext.request.contextPath}/dashBoard/detail?lectureNum="+lectureNum;
+	location.href = "${pageContext.request.contextPath}/dashBoard/detail?mode=1&lectureNum="+lectureNum+"&lectureApplyNum="+lectureApplyNum;
 }
 
 </script>
@@ -107,7 +107,7 @@ function detailDash(lectureNum) {
 				<div class="row row-cols-1 row-cols-md-3 g-5">
 					<c:forEach var="li" items="${list}">
 						<div class="col">
-							<div class="card h-100" onclick="detailDash('${li.lectureNum}');">
+							<div class="card h-100" onclick="detailDash('${li.lectureNum}', '${li.lectureApplyNum}');">
 								<div class="card-header">
 									<p>${li.major}</p>
 									<a href="${pageContext.request.contextPath}/dashBoard/delete?lectureApplyNum=${li.lectureApplyNum}"><i class="fa-regular fa-circle-xmark"></i></a>

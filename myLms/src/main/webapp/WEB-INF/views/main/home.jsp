@@ -89,14 +89,7 @@ function addLecture(lectureNum) {
 						<td>${li.day}
 						<td>${li.time} 교시</td>
 						<td>${li.userName} 교수</td>
-						<c:choose>
-							<c:when test="${li.status == 1}">
-								<td><button type="button" value="${li.lectureNum}" class="addBtn" disabled="disabled">담기</button></td>
-							</c:when>
-							<c:when test="${li.status == 0}">
-								<td><button type="button" value="${li.lectureNum}" class="addBtn" onclick="addLecture('${li.lectureNum}');">담기</button></td>
-							</c:when>
-						</c:choose>
+						<td><button type="button" value="${li.lectureNum}" class="addBtn" onclick="addLecture('${li.lectureNum}');">담기</button></td>
 						<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}', '${li.userName}');" class="detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
 					</tr>				
 				</c:forEach>

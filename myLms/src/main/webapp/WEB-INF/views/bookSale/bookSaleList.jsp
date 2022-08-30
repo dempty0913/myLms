@@ -222,6 +222,7 @@
 							<button type="button" class="searchBtn">검색</button>
 						</div>
 					</div>
+					<!-- 
 					<div class="majorList">
 						<div class="major">글로벌비즈니스</div>
 						<div class="major">광고홍보콘텐츠</div>
@@ -245,6 +246,7 @@
 						<div class="major">영화영상</div>
 						<div class="major">미용예술</div>
 					</div>
+					 -->
 				</div>
 				
 				

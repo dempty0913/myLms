@@ -6,10 +6,13 @@
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT l.lectureNum, l.userId, userName, lectureName, lectureInfo, major,
-						year,semester,day,time,l.regDate,midSDate,finSDate, NVL(a.status, 0) status
+						year,semester,day,time,l.regDate,midSDate,finSDate
 				FROM lecture l
 				JOIN member m ON l.userId = m.userId
-				LEFT OUTER JOIN lectureApply a ON l.lectureNum = a.lectureNum
+                WHERE l.lectureNum NOT IN (SELECT l.lectureNum 
+                                    FROM lecture l 
+                                    JOIN lectureApply a ON l.lectureNum=a.lectureNum
+                                    WHERE a.userId=#{userId})
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>

@@ -86,8 +86,15 @@
 
 function addLecture () {
 	let f = document.videoForm;
+	let str;
 	
-	f.action = "${pageContext.request.contextPath}/teacher/lecture/videoAdd";
+	if("${mode}" == "add"){
+		str = "videoAdd";
+	} else {
+		str = "videoUpdate";
+	}
+	
+	f.action = "${pageContext.request.contextPath}/teacher/lecture/"+str;
     f.submit();
 };
 
@@ -117,6 +124,11 @@ window.addEventListener("load", function(){
 		};
 	});
 });
+
+$(function(){
+	$("#major").val(${lectureNum}).prop("selected", true);
+});
+
 </script>
 
 
@@ -131,7 +143,7 @@ window.addEventListener("load", function(){
 						<table>
 							<tr>
 								<td>강의명</td>
-								<td colspan="3"><input type="text" id="videoName" name="videoName" value="" class="form-control"></td>
+								<td colspan="3"><input type="text" id="videoName" name="videoName" value="${dto.videoName}" class="form-control"></td>
 							</tr>
 							<tr>
 								<td>수업</td>
@@ -153,11 +165,11 @@ window.addEventListener("load", function(){
 							</tr>
 							<tr>
 								<td>영상 길이</td>
-								<td colspan="3"><input type="text" class="form-control" id="videoTotalTime" name="videoTotalTime" value="${dto.fileTotalTime}" readonly="readonly" placeholder="영상 길이"></td>
+								<td colspan="3"><input type="text" class="form-control" id="videoTotalTime" name="videoTotalTime" readonly="readonly" placeholder="영상 길이"></td>
 							</tr>
 						</table>
 						<c:if test="${mode == 'update'}">
-							<input type="hidden" name="lectureNum" value="${dto.lectureNum}">
+							<input type="hidden" name="videoFileNum" value="${videoFileNum}">
 						</c:if>
 						<p class="buttonP"><button type="button" class="addBtn" onclick="addLecture();">강의 ${mode == "add" ? "업로드" : "수정"}하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/videoList'">취소</button></p>
 					</form>

@@ -96,41 +96,18 @@ $(function() {
 	$('#semester').val(sem);
 });
 
-$(function() {
-	let daysStr = "${dto.day}";
-	let days = daysStr.split(',');
-	
-	for(let d in days){
-		$("input:checkbox[name='days'][value="+days[d]+"]").prop("checked", true);
-	}
-	
-	let timesStr = "${dto.time}";
-	let times = timesStr.split(',');
-	
-	for(let t in times){
-		$("input:checkbox[name='times'][value="+times[t]+"]").prop("checked", true);
-	}
-	
-	let major = "${dto.major}";
-	$("#major").val(major).prop("selected", true);
-	
-});
 
 function addProject () {
-	/*
-	let days = [];
-	$('input:checkbox[name=day]:checked').each(function () {
-	    days.push($(this).val());
-	});
-	let day = days.join(',');
-	console.log(day);
-	*/
-	
+
 	let f = document.addForm;
 	
-	f.action = "${pageContext.request.contextPath}/teacher/lecture/project/add";
+	f.action = "${pageContext.request.contextPath}/teacher/lecture/project/${mode}";
     f.submit();
 };
+
+$(function(){
+	$("#major").val(${lectureNum}).prop("selected", true);
+});
 </script>
 
 
@@ -145,11 +122,11 @@ function addProject () {
 						<table>
 							<tr>
 								<td>과제명</td>
-								<td colspan="3"><input type="text" id="projectSubject" name="projectSubject" value="${dto.lectureName}" class="form-control"></td>
+								<td colspan="3"><input type="text" id="projectSubject" name="projectSubject" value="${dto.projectSubject}" class="form-control"></td>
 							</tr>
 							<tr>
 								<td>과제 설명</td>
-								<td colspan="3"><textarea class="form-control" id="projectContent" name="projectContent">${dto.lectureInfo}</textarea></td>
+								<td colspan="3"><textarea class="form-control" id="projectContent" name="projectContent">${dto.projectContent}</textarea></td>
 							</tr>
 							<tr>
 								<td>수업</td>
@@ -161,7 +138,7 @@ function addProject () {
 									</select>
 								</td>
 								<td>마감일</td>
-								<td><input type="text" id="eDate" name="eDate" value="" class="form-control" placeholder="EX) YYYY-MM-DD"></td>
+								<td><input type="text" id="eDate" name="eDate" value="${dto.eDate}" class="form-control" placeholder="EX) YYYY-MM-DD"></td>
 							</tr>
 							<tr>
 								<td>첨부파일</td>
@@ -169,7 +146,7 @@ function addProject () {
 							</tr>
 						</table>
 						<c:if test="${mode == 'update'}">
-							<input type="hidden" name="lectureNum" value="${dto.lectureNum}">
+							<input type="hidden" name="projectNum" value="${dto.projectNum}">
 						</c:if>
 						<p class="buttonP"><button type="button" class="addBtn" onclick="addProject();">과제 ${mode == "add" ? "추가" : "수정"}하기</button><button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/projectList'">취소</button></p>
 					</form>

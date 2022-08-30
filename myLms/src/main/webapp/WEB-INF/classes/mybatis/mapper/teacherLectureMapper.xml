@@ -37,6 +37,10 @@
 		SELECT * FROM lecture WHERE lectureNum=#{lectureNum}
 	</select>
 	
+	<select id="applyCount" parameterType="integer" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM lectureApply WHERE lectureNum=#{lectureNum}
+	</select>
+	
 	<update id="updateLecture" parameterType="com.sp.lms.teacher.lecture.Lecture">
 		UPDATE lecture SET lectureName=#{lectureName}, lectureInfo=#{lectureInfo}, 
 						major=#{major},year=#{year},semester=#{semester},
@@ -62,6 +66,21 @@
 		WHERE userId=#{userId}
 	</select>
 	
+	<select id="videoArticle" parameterType="map" resultType="com.sp.lms.teacher.lecture.Video">
+		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate
+		FROM lectureVideoFile
+		WHERE videoFileNum=#{videoFileNum}
+	</select>
+	
+	<update id="updateVideo" parameterType="com.sp.lms.teacher.lecture.Video">
+		UPDATE lectureVideoFile SET lectureNum=#{lectureNum}, videoName=#{videoName},
+				videoFileName=#{videoFileName}, regDate=SYSDATE
+		WHERE videoFileNum=#{videoFileNum}
+	</update>
+	
+	<delete id="deleteVideo" parameterType="integer">
+		DELETE FROM lectureVideoFile WHERE videoFileNum=#{videoFileNum}
+	</delete>
 	
 	<!-- 과제 -->
 	<insert id="insertProject" parameterType="com.sp.lms.teacher.lecture.Project">
@@ -84,4 +103,56 @@
 		JOIN lecture l ON p.lectureNum=l.lectureNum
 		WHERE userId=#{userId}
 	</select>
+	
+	<select id="projectDetail" parameterType="map" resultType="com.sp.lms.teacher.lecture.Project">
+		SELECT p.projectNum, p.lectureNum, projectSubject, projectContent,
+		TO_CHAR(p.regDate, 'YYYY-MM-DD') regDate, TO_CHAR(eDate, 'YYYY-MM-DD') eDate,
+		                f.saveFileName, f.originalFileName
+		FROM project p
+		LEFT OUTER JOIN projectFile f ON f.projectNum=p.projectNum
+		<where>
+			p.projectNum=#{projectNum}
+		</where>
+	</select>
+	
+	<select id="submitCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM submit WHERE projectNum=#{projectNum}
+	</select>
+	
+	<update id="updateProject" parameterType="com.sp.lms.teacher.lecture.Project">
+		UPDATE project SET lectureNum=#{lectureNum}, projectSubject=#{projectSubject},
+				 projectContent=#{projectContent}, regDate=SYSDATE, eDate=#{eDate}
+		WHERE projectNum=#{projectNum}
+	</update>
+	<update id="updateProjectFile" parameterType="com.sp.lms.teacher.lecture.Project">
+		UPDATE projectFile SET originalFileName=#{originalFileName, jdbcType=VARCHAR}, 
+				saveFileName=#{saveFileName, jdbcType=VARCHAR}
+		WHERE projectNum=#{projectNum} 
+	</update>
+	
+	<delete id="deleteProject" parameterType="integer">
+		DELETE FROM project WHERE projectNum=#{projectNum}
+	</delete>
+	<delete id="deleteProjectFile" parameterType="integer">
+		DELETE FROM projectFile WHERE projectNum=#{projectNum}
+	</delete>
+	
+	<select id="applyList" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Submit">
+		SELECT submitNum, projectNum, s.lectureApplyNum, originalFileName,
+				saveFileName, submitDate, a.userId, userName
+		FROM submit s
+		JOIN lectureApply a ON s.lectureApplyNum = a.lectureApplyNum
+		JOIN member m ON a.userId = m.userId
+		WHERE projectNum=#{projectNum}
+	</select>
+	
+	<select id="submitDetail" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Submit">
+		SELECT submitNum, projectNum, s.lectureApplyNum, originalFileName,
+				saveFileName, submitDate, a.userId, userName
+		FROM submit s
+		JOIN lectureApply a ON s.lectureApplyNum = a.lectureApplyNum
+		JOIN member m ON a.userId = m.userId
+		WHERE submitNum=#{submitNum}
+	</select>
+	
 </mapper>

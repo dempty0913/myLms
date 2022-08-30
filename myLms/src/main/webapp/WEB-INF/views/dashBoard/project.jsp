@@ -67,6 +67,7 @@
 
 .video tr {
 	border-bottom: 1px solid black;
+	cursor: pointer;
 }
 
 .video td {
@@ -82,57 +83,48 @@
 </style>
 
 		
-		<div class="lecture">
-			<div class="top">
-				<p>2022 - 2학기</p>
-				<div class="topBottom">
-					<p>자바 프로그래밍</p>
-					<p>김자바 교수</p>
-				</div>
-			</div>
-			
-		</div>
-		
-		<ul class="nav nav-tabs">
-			<li class="nav-item">
-				<a class="nav-link" href="#">수업</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">과제</a>
-			</li>
-		</ul>
-		
-		<div class="select">
-			<select class="form-select">
-				<option>전체</option>
-				<option>미제출</option>
-				<option>제출</option>				
-			</select>
-		</div>
-		
-		<div class="videoList">
-			<table class="video table table-hover">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th width="42%">과제</th>
-						<th>등록일</th>
-						<th>마감일</th>
-						<th width="15%">제출여부</th>
-					</tr>
-				</thead>
-				<c:forEach var="i" begin="1" end="5">
-					<tr onclick="#">
-						<td>${i}</td>
-						<td>피라미드 만들기</td>
-						<td>2022-07-22</td>
-						<td>2022-07-28</td>
-						<td>제출</td>
-					</tr>				
-				</c:forEach>
-			</table>
-		</div>
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<a class="nav-link" href="${pageContext.request.contextPath}/dashBoard/detail?mode=1&lectureNum=${lectureNum}&lectureApplyNum=${lectureApplyNum}">수업</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link active" aria-current="page" href="#">과제</a>
+	</li>
+</ul>
 
-	</div>
+<div class="select">
+	<select class="form-select">
+		<option>전체</option>
+		<option>미제출</option>
+		<option>제출</option>				
+	</select>
+
+</div>
+
+<div class="videoList">
+	<table class="video table table-hover">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th width="42%">과제</th>
+				<th>등록일</th>
+				<th>마감일</th>
+				<th width="15%">제출여부</th>
+			</tr>
+		</thead>
+		<c:forEach var="pr" items="${projectList}">
+			<tr onclick="location.href='${pageContext.request.contextPath}/dashBoard/projectDetail?projectNum=${pr.projectNum}&lectureNum=${lectureNum}&lectureApplyNum=${lectureApplyNum}'">
+				<td>${pr.listNum}</td>
+				<td>${pr.projectSubject}</td>
+				<td>${pr.regDate}</td>
+				<td>${pr.eDate}</td>
+				<td>${pr.originalFileName2 == null ? "미제출" : "제출"}</td>
+			</tr>				
+		</c:forEach>
+	</table>
+</div>
+
+<div class="page">
+	${dataCount == 0 ? "등록된 게시글이 없습니다." : paging}
 </div>
 

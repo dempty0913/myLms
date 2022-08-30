@@ -171,6 +171,29 @@ legend {
 </style>
 <script type="text/javascript">
 
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status===403) {
+				login();
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		},
+	});
+}
+
 function detailBtn(lectureNum, year, semester, lectureName, major, day, time, midSDate, finSDate, lectureInfo) {
 	let name = '${sessionScope.member.userName}';
 	name = name + " 교수";
@@ -196,6 +219,7 @@ function detailBtn(lectureNum, year, semester, lectureName, major, day, time, mi
 	$('#updateBtn').val(lectureNum);
 	$('#deleteBtn').val(lectureNum);
 	
+	applyCount(lectureNum);
 }
 
 function updateLecture() {
@@ -210,6 +234,22 @@ function deleteLecture() {
 	if(confirm("수업을 삭제 하시겠습니까 ? ")) {
 		location.href = '${pageContext.request.contextPath}/teacher/lecture/delete?lectureNum='+lectureNum;
 	}
+}
+
+function applyCount(lectureNum) {
+	let url = "${pageContext.request.contextPath}/teacher/lecture/applyCount";
+	let query = "lectureNum="+lectureNum;
+	
+	var fn = function(data){
+		console.log(data);
+		let c = data.count;
+		if(c != 0) {
+			$('#deleteBtn').hide();
+		}
+	};
+
+	ajaxFun(url, "get", query, "json", fn);
+	
 }
 
 </script>

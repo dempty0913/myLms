@@ -103,7 +103,7 @@
 							</div>
 							<hr>
 							<div class="list2">
-								<c:forEach var="vd" items="${videoList}" begin="0" end="3">
+								<c:forEach var="vd" items="${videoList}" begin="0" end="2">
 									<div class="listItem2">
 										<p>${vd.lectureName}</p>
 										<p>${vd.videoName}</p>
@@ -123,7 +123,7 @@
 							</div>
 							<hr>
 							<div class="list2">
-								<c:forEach var="pr" items="${projectList}" begin="0" end="3">
+								<c:forEach var="pr" items="${projectList}" begin="0" end="2">
 									<div class="listItem2">
 										<p>${pr.lectureName}</p>
 										<p>${pr.projectSubject}</p>

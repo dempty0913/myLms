@@ -7,8 +7,16 @@
 
 .detailProject {
 	padding: 30px 80px;
+	background: #EAEFF7;
+	overflow-y:scroll; height:100vh;
+	font-family: 'GmarketSansMedium';
 }
 
+.detailContents {
+	background: white;
+	border-radius: 12px;
+	padding: 30px 20px;
+}
 
 .title {
 	display: flex;
@@ -59,16 +67,28 @@
 	border-radius: 15px;
 }
 
-.btnList button:first-child {
+.btnList .btn {
 	background: white;
 	color: #2F4352;
 	border: 2px solid #2F4352;
 	margin-right: 10px;
 }
 
-.btnList button:nth-child(2) {
+.btnList .submitBtn {
 	background: #2F4352;
 	color: white;
+}
+
+.file {
+	border: 1px solid lightgray;
+	border-radius: 15px;
+	padding: 5px 8px;
+	color: gray;
+	margin-bottom: 12px;
+}
+
+.title .clear {
+	border: 3px solid blue;
 }
 
 </style>
@@ -78,30 +98,47 @@
 			<div class="detailContents">
 				<div class="title">
 					<div class="left">
-						<p>피라미드 만들기</p>
-						<p>2022-07-20 ~ 2022-07-25</p>
+						<p>${dto.projectSubject}</p>
+						<p>${dto.regDate} ~ ${dto.eDate}</p>
 					</div>
-					<div class="right">
-						<p>미제출</p>
-					</div>
+					<c:choose>
+						<c:when test="${pst.originalFileName != null}">
+							<div class="right clear">
+								<p>제출</p>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="right">
+								<p>미제출</p>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				
 				<hr>
 				
 				<div class="mainContent">
 					<div class="content">
-						<p>거꾸로 피라미드를 만들어 파일을 제출하세요.</p>
+						<c:if test="${dto.originalFileName != null}">
+							<div class="file">
+								<a href="${pageContext.request.contextPath}/dashBoard/download?projectNum=${dto.projectNum}">첨부파일 : ${dto.originalFileName}</a>
+							</div>
+						</c:if>
+						<p>${dto.projectContent}</p>
 					</div>
 					
 					<div class="bottom">
 						<div class="submitFile">
-							<p>제출파일 : triangle.java</p>
-							<p>2022-07-22</p>
+							<c:if test="${not empty pst.originalFileName}">
+								<p>제출파일 : ${dto.originalFileName2}</p>
+								<p>${dto.submitDate}</p>
+							</c:if>
 						</div>
 						<div class="btnList">
 							<p>
-								<button type="button">수정</button>
-								<button type="button">제출</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/detail?mode=2&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}'">목록</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/projectUpdate?projectNum=${dto.projectNum}&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}'">수정</button>
+								<button type="button" class="btn submitBtn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/projectSubmit?projectNum=${dto.projectNum}&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}'">제출</button>
 							</p>
 						</div>
 					</div>

@@ -55,4 +55,62 @@
 	</select>
 	
 	
+	<select id="projectList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Project">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT projectNum, lectureNum,projectSubject, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, TO_CHAR(eDate, 'YYYY-MM-DD') eDate
+				FROM project
+				WHERE lectureNum=#{lectureNum}
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="projectCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM project WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="projectDetail" parameterType="map" resultType="com.sp.lms.dashBoard.ProjectSubmit">
+		SELECT p.projectNum, p.lectureNum, projectSubject, projectContent,
+		TO_CHAR(p.regDate, 'YYYY-MM-DD') regDate, TO_CHAR(eDate, 'YYYY-MM-DD') eDate,
+		                f.saveFileName, f.originalFileName
+		FROM project p
+		LEFT OUTER JOIN projectFile f ON f.projectNum=p.projectNum
+		<where>
+			p.projectNum=#{projectNum}
+		</where>
+	</select>
+	
+	<!-- 과제 제출 여부 -->
+	<select id="submitStatus" resultType="com.sp.lms.dashBoard.ProjectStatus" parameterType="map">
+		SELECT p.projectsubject, s.originalFileName, s.submitNum, lectureApplyNum, TO_CHAR(s.submitDate, 'YYYY-MM-DD') submitDate
+		FROM
+		(SELECT * 
+		    FROM project
+		    WHERE lectureNum = #{lectureNum}) p
+		    FULL OUTER JOIN 
+		        (SELECT * 
+		            FROM submit
+		            WHERE lectureApplyNum = #{lectureApplyNum} ) s
+		            ON p.projectNum = s.projectNum
+		<where>
+			<if test="projectNum != null">
+				p.projectNum=#{projectNum}
+			</if>
+		</where>
+		ORDER BY p.projectNum
+	</select>
+	
+	<insert id="submitProject" parameterType="com.sp.lms.dashBoard.ProjectSubmit">
+		INSERT INTO submit(submitNum, projectNum, lectureApplyNum, originalFileName, 
+							saveFileName, submitDate)
+		VALUES(submit_seq.NEXTVAL, #{projectNum}, #{lectureApplyNum}, 
+				#{originalFileName, jdbcType=VARCHAR}, #{saveFileName, jdbcType=VARCHAR}, SYSDATE)
+	</insert>
+	
+	<update id="updateProject" parameterType="com.sp.lms.dashBoard.ProjectSubmit">
+		UPDATE submit SET originalFileName=#{originalFileName, jdbcType=VARCHAR}, 
+						saveFileName=#{saveFileName, jdbcType=VARCHAR}, submitDate=SYSDATE
+		WHERE submitNum=#{submitNum}
+	</update>
+	
 </mapper>

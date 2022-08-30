@@ -9,6 +9,8 @@ public class Video {
 	private double videoTotalTime;
 	private String videoFileName;
 	
+	private int listNum;
+	
 	private double saveTime;
 	private int status;
 	
@@ -59,6 +61,12 @@ public class Video {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
 	}
 
 	

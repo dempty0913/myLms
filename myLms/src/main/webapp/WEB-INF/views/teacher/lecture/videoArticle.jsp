@@ -81,7 +81,12 @@
 </style>
 <script type="text/javascript">
 
-
+function deleteBtn() {
+	
+	if(confirm("강의를 삭제 하시겠습니까 ? ")) {
+		location.href = '${pageContext.request.contextPath}/teacher/lecture/deleteVideo?videoFileNum=${dto.videoFileNum}';
+	}
+}
 
 
 </script>
@@ -112,7 +117,11 @@
 						<tr>
 					</table>
 
-					<p class="buttonP"><button type="button" onclick="location.href='${pageContext.request.contextPath}/dashBoard/detail?mode=1&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}'">목록</button></p>
+					<p class="buttonP">
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/videoUpdate?videoFileNum=${dto.videoFileNum}&lectureNum=${dto.lectureNum}'">수정</button>
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/videoList'">목록</button>
+						<button type="button" class="btn deleteBtn" onclick="deleteBtn();">삭제</button>
+					</p>
 				</div>
 				
 				

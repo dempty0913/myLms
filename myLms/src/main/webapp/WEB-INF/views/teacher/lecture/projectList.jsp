@@ -184,7 +184,7 @@ function deleteLecture() {
 											<c:forEach var="pl" items="${projectList}">
 												<c:if test="${li.lectureNum == pl.lectureNum}">
 													<div class="accordion-unit">
-														<a href="#" class="line">
+														<a href="${pageContext.request.contextPath}/teacher/lecture/pArticle?projectNum=${pl.projectNum}" class="line">
 															<p><i class="fa-solid fa-book"></i>&nbsp;&nbsp;${pl.projectSubject}</p>
 															<p>${pl.eDate}까지</p>
 														</a>
