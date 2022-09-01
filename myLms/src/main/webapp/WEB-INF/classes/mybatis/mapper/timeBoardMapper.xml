@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="time">
+	<select id="timeBoardList" parameterType="map" resultType="com.sp.lms.dashBoard.DashBoard">
+		SELECT lectureApplyNum, a.lectureNum, lectureName, year, semester, day, time
+		FROM lectureApply a
+		JOIN lecture l ON a.lectureNum=l.lectureNum
+		WHERE a.userId=#{userId}
+	</select>
+	
+	<select id="timeBoardCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM lectureApply WHERE userId=#{userId}
+	</select>
+</mapper>

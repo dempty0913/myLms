@@ -149,7 +149,6 @@ function deleteLecture() {
 							<li><a href="${pageContext.request.contextPath}/teacher/lecture/home">수업</a></li>
 							<li>영상</li>
 							<li><a href="${pageContext.request.contextPath}/teacher/lecture/projectList">과제</a></li>
-							<li>성적</li>
 						</ul>
 					</div>
 					
