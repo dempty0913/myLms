@@ -13,6 +13,7 @@ public class Video {
 	
 	private double saveTime;
 	private int status;
+	private int percent;
 	
 	public int getLectureNum() {
 		return lectureNum;
@@ -67,6 +68,12 @@ public class Video {
 	}
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
+	}
+	public int getPercent() {
+		return percent;
+	}
+	public void setPercent(int percent) {
+		this.percent = percent;
 	}
 
 	

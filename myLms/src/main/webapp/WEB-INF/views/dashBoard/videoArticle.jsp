@@ -81,7 +81,14 @@
 </style>
 <script type="text/javascript">
 
-
+$(function(){
+	let vid = document.getElementById("lectureVideo");
+	let time;
+	$('#listBtn').click(function(){
+		saveTime = vid.currentTime;
+		location.href='${pageContext.request.contextPath}/dashBoard/detail?mode=1&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}&videoFileNum=${videoFileNum}&saveTime='+saveTime;
+	});
+});
 
 
 </script>
@@ -107,12 +114,12 @@
 						</tr>
 						<tr>
 							<td>강의</td>
-							<td colspan="3"><video class="lectureVideo form-control" src="${pageContext.request.contextPath}/uploads/video/${dto.videoFileName}" id="lvideo" controls="controls"></video></td>
+							<td colspan="3"><video id="lectureVideo" class="lectureVideo form-control" src="${pageContext.request.contextPath}/uploads/video/${dto.videoFileName}" id="lvideo" controls="controls"></video></td>
 						</tr>
 						<tr>
 					</table>
 
-					<p class="buttonP"><button type="button" onclick="location.href='${pageContext.request.contextPath}/dashBoard/detail?mode=1&lectureNum=${dto.lectureNum}&lectureApplyNum=${lectureApplyNum}'">목록</button></p>
+					<p class="buttonP"><button type="button" id="listBtn" onclick="">목록</button></p>
 				</div>
 				
 				

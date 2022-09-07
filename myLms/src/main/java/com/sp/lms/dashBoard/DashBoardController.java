@@ -101,9 +101,21 @@ public class DashBoardController {
 	}
 	
 	@RequestMapping(value = "detail", method = RequestMethod.GET)
-	public String detailDash(@RequestParam int lectureNum, @RequestParam int lectureApplyNum, @RequestParam int mode, Model model) {
+	public String detailDash(@RequestParam int lectureNum, @RequestParam int lectureApplyNum, 
+							@RequestParam(defaultValue="0") double saveTime, @RequestParam int mode,
+							@RequestParam(defaultValue="0") int videoFileNum, Model model) {
 		
 		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			if(saveTime != 0) {
+				map.put("lectureApplyNum", lectureApplyNum);
+				map.put("saveTime", saveTime);
+				map.put("videoFileNum", videoFileNum);
+				
+				service.saveTime(map);
+			}
+			
 			DashBoard dto = service.detailDash(lectureNum);
 			
 			model.addAttribute("dto", dto);
@@ -180,6 +192,7 @@ public class DashBoardController {
 			
 			model.addAttribute("dto", dto);
 			model.addAttribute("lectureApplyNum",lectureApplyNum);
+			model.addAttribute("videoFileNum", videoFileNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

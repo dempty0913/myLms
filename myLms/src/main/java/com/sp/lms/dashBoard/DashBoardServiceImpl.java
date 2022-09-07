@@ -75,8 +75,21 @@ public class DashBoardServiceImpl implements DashBoardService {
 	@Override
 	public List<Video> videoList(Map<String, Object> map) {
 		List<Video> list = null;
+		List<Video> sList = null;
 		try {
 			list = dao.selectList("dash.videoList", map);
+			sList = dao.selectList("dash.videoTime", map);
+			for (int i = 0; i < list.size(); i++){
+				for (int j = 0; j < list.size(); j++){
+					if(list.get(i).getVideoFileNum() == sList.get(j).getVideoFileNum()) {
+						System.out.println(list.get(i).getVideoFileNum()+"----------");
+						System.out.println(sList.get(i).getVideoFileNum()+"----------");
+						int time = (int) sList.get(j).getSaveTime();
+						list.get(i).setSaveTime(time);
+					}
+				}
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -179,6 +192,21 @@ public class DashBoardServiceImpl implements DashBoardService {
 			}
 			
 			dao.updateData("dash.updateProject", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void saveTime(Map<String, Object> map) {
+		int time;
+		try {
+			time = dao.selectOne("dash.getSaveTime", map);
+			if(time != 0 && time < (int)Double.parseDouble(String.valueOf(map.get("saveTime")))) {
+				dao.updateData("dash.updateSaveTime", map);
+			} else if(time == 0) {
+				dao.insertData("dash.saveTime", map);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

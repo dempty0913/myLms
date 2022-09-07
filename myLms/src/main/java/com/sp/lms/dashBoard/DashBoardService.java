@@ -14,6 +14,7 @@ public interface DashBoardService {
 	public int videoCount(Map<String, Object> map);
 	public List<Video> videoList(Map<String, Object> map);
 	public Video videoArticle(Map<String, Object> map);
+	public void saveTime(Map<String, Object> map);
 	
 	public int projectCount(Map<String, Object> map);
 	public List<Project> projectList(Map<String, Object> map);

@@ -21,8 +21,7 @@
 				<th width="42%">제목</th>
 				<th>등록일</th>
 				<th>영상시간</th>
-				<th>들은시간</th>
-				<th width="12%">미완 / 완료</th>
+				<th>수강률</th>
 				<th>듣기</th>
 			</tr>
 		</thead>
@@ -32,8 +31,7 @@
 				<td>${li.videoName}</td>
 				<td>${li.regDate}</td>
 				<td>${li.videoTotalTime}</td>
-				<td>${li.saveTime}</td>
-				<td>${li.videoTotalTime == li.saveTime ? "완료" : "미완" }</td>
+				<td>${Math.round(100 / (Math.floor(li.videoTotalTime) / li.saveTime)) >= 100 ? 100 : Math.round(100 / (li.videoTotalTime / li.saveTime)) }%</td>
 				<td><button type="button" class="watchBtn" onclick="location.href='${pageContext.request.contextPath}/dashBoard/article?videoFileNum=${li.videoFileNum}&lectureApplyNum=${lectureApplyNum}'">듣기</button>
 			</tr>				
 		</c:forEach>

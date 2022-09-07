@@ -11,6 +11,7 @@
 				JOIN member m ON l.userId = m.userId
 				JOIN lectureApply a ON l.lectureNum = a.lectureNum
 				WHERE a.userId = #{userId}
+				ORDER BY l.lectureNum DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
@@ -33,15 +34,32 @@
 	<select id="videoList" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT l.lectureNum, v.videoFileNum, videoName, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, videoTotalTime, 
-						videoFileName, saveTime, p.status
-				FROM lectureApply a
-				JOIN lecture l ON a.lectureNum = l.lectureNum
-				JOIN lectureVideoFile v ON l.lectureNum = v.lectureNum
-				LEFT OUTER JOIN pauseSave p ON a.lectureApplyNum = p.lectureApplyNum
-				WHERE l.lectureNum=#{lectureNum} AND a.userId=#{userId}
+				select v.lectureNum, a.lectureApplyNum, videoFileNum, videoName, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, videoTotalTime, videoFileName
+				from lectureVideoFile v
+				join lecture l on l.lectureNum=v.lectureNum
+				join lectureApply a on l.lectureNum=a.lectureNum
+				where a.userId=#{userId} and a.lectureNum=#{lectureNum}
+				ORDER BY videoFileNum DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
+	</select>
+	<select id="videoTime" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
+		select v.lectureNum, pal.lectureApplyNum, lectureName, 
+					NVL(pal.videoFileNum,0) videoFileNum, NVL(saveTime,0) saveTime, 
+					NVL(pal.status,0) status
+		from (  select a.lectureNum, a.lectureApplyNum, lectureName, p.videoFileNum, NVL(saveTime,0) saveTime, NVL(p.status,0) status
+		        from pauseSave p
+		        join lectureApply a on p.lectureApplyNum=a.lectureApplyNum
+		        join lecture l on l.lectureNum=a.lectureNum
+		        where a.userId=#{userId}
+		     ) pal
+		     full outer join
+		     (
+		        select lectureNum, videoFileNum
+		        from lectureVideoFile v
+		     ) v
+		     on v.videoFileNum=pal.videoFileNum
+		where v.lectureNum=#{lectureNum}
 	</select>
 	
 	<select id="videoCount" parameterType="map" resultType="integer">
@@ -54,6 +72,20 @@
 		WHERE videoFileNum=#{videoFileNum}
 	</select>
 	
+	<insert id="saveTime" parameterType="map">
+		INSERT INTO pauseSave(pauseSaveNum, videoFileNum, lectureApplyNum, saveTime)
+		VALUES(pauseSave_seq.NEXTVAL, #{videoFileNum}, #{lectureApplyNum}, #{saveTime})
+	</insert>
+	
+	<update id="updateSaveTime" parameterType="map">
+		UPDATE pauseSave SET saveTime=#{saveTime} 
+		WHERE videoFileNum=#{videoFileNum} AND lectureApplyNum=#{lectureApplyNum}
+	</update>
+	
+	<select id="getSaveTime" parameterType="map" resultType="integer">
+		SELECT NVL(MAX(saveTime), 0) FROM pauseSave WHERE videoFileNum=#{videoFileNum} AND lectureApplyNum=#{lectureApplyNum}
+	</select>
+	
 	
 	<select id="projectList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Project">
 		SELECT * FROM (
@@ -61,6 +93,7 @@
 				SELECT projectNum, lectureNum,projectSubject, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, TO_CHAR(eDate, 'YYYY-MM-DD') eDate
 				FROM project
 				WHERE lectureNum=#{lectureNum}
+				ORDER BY projectNum DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
@@ -97,7 +130,7 @@
 				p.projectNum=#{projectNum}
 			</if>
 		</where>
-		ORDER BY p.projectNum
+		ORDER BY p.projectNum DESC
 	</select>
 	
 	<insert id="submitProject" parameterType="com.sp.lms.dashBoard.ProjectSubmit">

@@ -74,7 +74,7 @@
 	
 	<update id="updateVideo" parameterType="com.sp.lms.teacher.lecture.Video">
 		UPDATE lectureVideoFile SET lectureNum=#{lectureNum}, videoName=#{videoName},
-				videoFileName=#{videoFileName}, regDate=SYSDATE
+				videoFileName=#{videoFileName}, regDate=SYSDATE, videoTotalTime=#{videoTotalTime}
 		WHERE videoFileNum=#{videoFileNum}
 	</update>
 	
