@@ -97,6 +97,7 @@
 	padding: 15px 20px;
 	display: flex;
 	justify-content: space-between;
+	cursor: pointer;
 }
 
 .lecture .lectureLeft {
@@ -154,6 +155,19 @@
 
 </style>
 
+<script type="text/javascript">
+
+$(function(){
+	$(".lecture").click(function(){
+		let id = $(this).attr('id');
+		id = id.replace('lecture', '');
+		location.href = "${pageContext.request.contextPath}/review/detail?lectureNum="+id;
+	});
+});
+
+</script>
+
+
 
 		<div class="back">
 			<div class="contents">
@@ -175,6 +189,7 @@
 							<option>교양</option>				
 						</select>
 					</div>
+					<!-- 
 					<div class="majorList">
 						<div class="major">글로벌비즈니스</div>
 						<div class="major">광고홍보콘텐츠</div>
@@ -199,28 +214,32 @@
 						<div class="major">미용예술</div>
 					</div>
 				</div>
-				
+				 -->
 				
 				<div class="mainContent">
-					<p class="firstP">총 <span>10개</span> 수업</p>
-					<c:forEach var="i" begin="1" end="5">
-						<div class="lecture">
+					<p class="firstP">총 <span>${dataCount}개</span> 수업</p>
+					<c:forEach var="li" items="${list}">
+						<div class="lecture" id="lecture${li.lectureNum}">
 							<div class="lectureLeft">
 								<div class="lectureTitle">
-									<p>자바 프로그래밍</p>
-									<div class="box lectureMajor">컴퓨터공학</div>
+									<p>${li.lectureName}</p>
+									<div class="box lectureMajor">${li.major}</div>
 									<div class="box lectureType">전공</div>
 								</div>
-								<p>김자바 교수</p>
+								<p>${li.userName} 교수</p>
 							</div>
 							<div class="lectureRight">
 								<div class="count">
 									<p>후기</p>
-									<p>5</p>
+									<p>${li.reviewCount}</p>
 								</div>
 							</div>
 						</div>
 					</c:forEach>
+				</div>
+				
+				<div class="page">
+					${dataCount == 0 ? "등록된 게시글이 없습니다." : paging}
 				</div>
 				
 			</div>

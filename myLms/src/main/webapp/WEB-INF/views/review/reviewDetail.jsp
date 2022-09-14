@@ -25,6 +25,15 @@
 	padding-right: 60px;
 }
 
+.backBtn {
+	color: #2F4352;
+	background: white;
+	border: 3px solid #2F4352;
+	padding: 0 25px;
+	height: 50px;
+	margin-right: 8px;
+}
+
 .writeBtn {
 	background: #2F4352;
 	color: white;
@@ -134,7 +143,24 @@
 	padding: 40px 15px;
 }
 
+.deleteBtn {
+	background: #2F4352;
+	color: white;
+	padding: 0 25px;
+	height: 50px;
+}
+
 </style>
+
+<script type="text/javascript">
+
+function deleteReview() {
+	if(confirm("리뷰를 삭제하시겠습니까 ? ")){
+		location.href='${pageContext.request.contextPath}/review/delete?lectureReviewNum=${myRev.lectureReviewNum}&lectureNum=${myRev.lectureNum}';
+	}
+}
+
+</script>
 
 
 		<div class="contents">
@@ -142,74 +168,86 @@
 				<div class="topPart" style="background: white; padding: 25px 35px; display: flex;">
 					<div class="left">
 						<div class="topLeft">
-							<p class="lectureTitle">자바 프로그래밍</p>
+							<p class="lectureTitle">${dto.lectureName}</p>
 							<table>
 								<tr>
-									<td>컴퓨터공학</td>
+									<td>${dto.major}</td>
 									<td>전공</td>
 								</tr>
 								<tr>
-									<td>김자바 교수</td>
-									<td>월, 목 21, 22교시</td>
+									<td>${dto.userName} 교수</td>
+									<td>${dto.day}&nbsp;${dto.time}교시</td>
 								</tr>
 							</table>
 						</div>
-						<button type="button" class="writeBtn">후기 작성</button>
+						<button type="button" class="backBtn" onclick="location.href='${pageContext.request.contextPath}/review/home'">목록</button>
+						<c:if test="${dto.check == 1 and empty myRev}">
+							<button type="button" class="writeBtn" onclick="location.href='${pageContext.request.contextPath}/review/write?lectureNum=${dto.lectureNum}&lectureApplyNum=${dto.lectureApplyNum}'">후기 작성</button>
+						</c:if>
 					</div>
 					<div class="right">
 						<div class="test">
 							<p>시험난이도</p>
-							<p><span>상</span> 80% &nbsp;&nbsp;<span>중</span> 10% &nbsp;&nbsp;<span>하</span> 10%</p>
+							<p><span>상</span> ${level.tTop}% &nbsp;&nbsp;<span>중</span> ${level.tMid}% &nbsp;&nbsp;<span>하</span> ${level.tBot}%</p>
 						</div>
 						<div class="project">
 							<p>과제난이도</p>
-							<p><span>상</span> 80% &nbsp;&nbsp;<span>중</span> 10% &nbsp;&nbsp;<span>하</span> 10%</p>
+							<p><span>상</span> ${level.pTop}% &nbsp;&nbsp;<span>중</span> ${level.pMid}% &nbsp;&nbsp;<span>하</span> ${level.pBot}%</p>
 						</div>
 					</div>
 				</div>
 				
 				
 				<div class="reviewContents">
-					<div class="myReview">
-						<p class="smallTitle">내 후기</p>
-						<div class="reviewContent">
-							<div class="myReviewTop">
-								<table>
-									<tr>
-										<td>시험난이도&nbsp;&nbsp;상</td>
-										<td>2022년 1학기 수업</td>
-									</tr>
-									<tr>
-										<td>과제난이도&nbsp;&nbsp;중</td>
-										<td>등록일&nbsp;&nbsp;2022-07-07</td>
-									</tr>
-								</table>
-								<button type="button" class="updateBtn">수정</button>
-							</div>
-							<p>수업에 정말 열정적이셔서 많이 배울 수 있는 수업이었습니다. 시험과 과제 난이도는 다른 과목에 비해 어려운 편이지만 수업만 열심히 들으면 제출할 수 있습니다</p>
-						</div>
-					</div>
-					
-					<div class="allReview">
-						<p class="smallTitle">모든 후기</p>
-						<c:forEach var="i" begin="1" end="5">
+					<c:if test="${not empty myRev}">
+						<div class="myReview">
+							<p class="smallTitle">내 후기</p>
 							<div class="reviewContent">
 								<div class="myReviewTop">
 									<table>
 										<tr>
-											<td>시험난이도&nbsp;&nbsp;상</td>
-											<td>2022년 1학기 수업</td>
+											<td>시험난이도&nbsp;&nbsp;${myRev.testLevel}</td>
+											<td>${myRev.year}년&nbsp; ${myRev.semester}학기 수업</td>
 										</tr>
 										<tr>
-											<td>과제난이도&nbsp;&nbsp;중</td>
-											<td>등록일&nbsp;&nbsp;2022-07-07</td>
+											<td>과제난이도&nbsp;&nbsp;${myRev.projectLevel}</td>
+											<td>등록일&nbsp;&nbsp;${myRev.regDate}</td>
+										</tr>
+									</table>
+									<p>
+										<button type="button" class="updateBtn" onclick="location.href='${pageContext.request.contextPath}/review/update?lectureNum=${dto.lectureNum}&lectureApplyNum=${dto.lectureApplyNum}'">수정</button>
+										<button type="button" class="deleteBtn" onclick="deleteReview();">삭제</button>
+									</p>
+								</div>
+								<p>${myRev.content}</p>
+							</div>
+						</div>
+					</c:if>
+					
+					<div class="allReview">
+						<p class="smallTitle">모든 후기</p>
+						<c:forEach var="li" items="${list}">
+							<div class="reviewContent">
+								<div class="myReviewTop">
+									<table>
+										<tr>
+											<td>시험난이도&nbsp;&nbsp;${li.testLevel}</td>
+											<td>${li.year}년 ${li.semester}학기 수업</td>
+										</tr>
+										<tr>
+											<td>과제난이도&nbsp;&nbsp;${li.projectLevel}</td>
+											<td>등록일&nbsp;&nbsp;${li.regDate}</td>
 										</tr>
 									</table>
 								</div>
-								<p>수업에 정말 열정적이셔서 많이 배울 수 있는 수업이었습니다. 시험과 과제 난이도는 다른 과목에 비해 어려운 편이지만 수업만 열심히 들으면 제출할 수 있습니다</p>
+								<p>${li.content}</p>
 							</div>
 							<hr>
 						</c:forEach>
+						
+						<div class="page">
+							${dataCount == 0 ? "등록된 게시글이 없습니다." : paging}
+						</div>
 					</div>
 				</div>
 				

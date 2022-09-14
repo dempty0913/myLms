@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rev">
+	<select id="reviewList" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT lectureNum, lectureName, userName, major
+				FROM lecture l
+				JOIN member m ON l.userId=m.userId
+				ORDER BY lectureNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="dataCount" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM lecture
+	</select>
+	
+	<select id="reviewCount" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT NVL(COUNT(*), 0) 
+		FROM lectureReview r
+		JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+		JOIN lecture l ON l.lectureNum=a.lectureNum
+	</select>
+	
+	<select id="lectureInfo" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT lectureNum, lectureName, major, year, semester, day, time, userName
+		FROM lecture l
+		JOIN member m ON l.userId=m.userId
+		WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="testLevel" parameterType="map" resultType="com.sp.lms.review.Level">
+		SELECT testLevel, COUNT(*) testSum
+		FROM lectureReview r
+		JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+		GROUP BY lectureNum, testLevel
+		HAVING lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="projectLevel" parameterType="map" resultType="com.sp.lms.review.Level">
+		SELECT projectLevel, COUNT(*) projectSum
+		FROM lectureReview r
+		JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+		GROUP BY lectureNum, projectLevel
+		HAVING lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="detailReview" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT lectureReviewNum, r.lectureApplyNum, testLevel, projectLevel, content, TO_CHAR(r.regDate, 'YYYY-MM-DD') regDate,
+						lectureName, major, year, semester, day, time
+				FROM lectureReview r
+				JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+				JOIN lecture l ON l.lectureNum=a.lectureNum
+				WHERE a.lectureNum=#{lectureNum}
+				ORDER BY r.regDate DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="reviewDetailCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM lectureReview r
+		JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+		JOIN lecture l ON l.lectureNum=a.lectureNum
+		WHERE a.lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="check" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT lectureNum, lectureApplyNum
+		FROM lectureApply
+		WHERE userId=#{userId}
+	</select>
+	
+	<insert id="insertReview" parameterType="com.sp.lms.review.Review">
+		INSERT INTO lectureReview(lectureReviewNum, lectureApplyNum, testLevel, projectLevel,
+						content, regDate)
+		VALUES (lectureReview_seq.NEXTVAL, #{lectureApplyNum}, #{testLevel}, #{projectLevel},
+					#{content}, SYSDATE)	
+	</insert>
+	
+	<select id="myReview" parameterType="map" resultType="com.sp.lms.review.Review">
+		SELECT lectureReviewNum, a.lectureNum, r.lectureApplyNum, testLevel, projectLevel, content, TO_CHAR(r.regDate, 'YYYY-MM-DD') regDate,
+				lectureName, major, year, semester, day, time
+		FROM lectureReview r
+		JOIN lectureApply a ON r.lectureApplyNum=a.lectureApplyNum
+		JOIN lecture l ON l.lectureNum=a.lectureNum
+		WHERE a.lectureNum=#{lectureNum} AND a.userId=#{userId}
+	</select>
+	
+	<update id="updateReview" parameterType="com.sp.lms.review.Review">
+		UPDATE lectureReview SET testLevel=#{testLevel}, projectLevel = #{projectLevel},
+						content = #{content}, regDate = SYSDATE
+		WHERE lectureReviewNum=#{lectureReviewNum}
+	</update>
+	
+	<delete id="deleteReview" parameterType="integer">
+		DELETE FROM lectureReview WHERE lectureReviewNum=#{lectureReviewNum}
+	</delete>
+	
+</mapper>
