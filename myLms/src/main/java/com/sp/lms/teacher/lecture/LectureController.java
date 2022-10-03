@@ -226,7 +226,7 @@ public class LectureController {
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root + File.separator + "uploads" + File.separator + "video";
-			
+			System.out.println(pathname + "---------------");
 			service.insertVideo(dto, pathname);
 		} catch (Exception e) {
 			e.printStackTrace();

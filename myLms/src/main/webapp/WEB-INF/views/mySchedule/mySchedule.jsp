@@ -22,18 +22,96 @@
 	font-family: 'Cafe24Ssurround';
 	color: #2F4352;
 }
+
+#calendar {
+	background: white;
+	padding: 30px 20px;
+	border-radius: 12px;
+}
 </style>
+
+
 
 
 		<div class="myCalendar">
 			<div class="contents">
-				<div class="calendarTitle">
-					<p>내 일정</p>
-				</div>
-				
+				<div id="calendar"></div>
 			</div>
 		</div>
 
 	</div>
 </div>
+
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status===403) {
+				login();
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		},
+	});
+}
+
+var calendar = null;
+document.addEventListener('DOMContentLoaded', function() {
+	var calendarEl = document.getElementById('calendar');
+	calendar = new FullCalendar.Calendar(calendarEl, {
+		initialView: 'dayGridMonth',
+		locale: 'ko',
+		selectable: false,
+		events : function(info, successCallback, failureCallback) {
+				
+			let url = "${pageContext.request.contextPath}/mySchedule/list";
+			let startDay = info.startStr.substr(0, 10);
+			let endDay = info.endStr.substr(0, 10);
+			let query = "sDate="+startDay+"&eDate="+endDay;
+			
+			var fn = function(data){
+				let arrayEvents = [];
+				for(let i=0; i<data.list.length; i++){
+					let item = data.list[i];
+					let obj = {};
+					if(item.type == 1){
+						obj.title = item.subject + " 시험";
+					} else {
+						obj.title = item.subject + "(" + item.lectureName + ")  과제 제출";
+					}
+					obj.start = item.sDate;
+					if(item.eDate != null){
+						obj.end = item.eDate;
+					} else {
+						obj.end = item.sDate;
+					}
+					obj.color = item.color;
+					obj.allDay = true;
+										
+					arrayEvents.push(obj);
+				}
+				successCallback(arrayEvents);
+			};
+			
+			ajaxFun(url, "get", query, "json", fn);
+		}
+	});
+	calendar.render();
+});
+
+
+
+</script>
 

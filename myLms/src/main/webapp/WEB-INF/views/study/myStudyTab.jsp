@@ -217,6 +217,7 @@ $(function(){
 });
 
 
+
 </script>
 
 
@@ -245,10 +246,10 @@ $(function(){
 				<div class="mainContent">
 					<ul class="nav nav-tabs selectMode" id="myTab" role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="home-tab"  data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">전체</button>
+							<button class="nav-link" id="home-tab" onclick="location.href='${pageContext.request.contextPath}/study/home'" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">전체</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="profile-tab" onclick="location.href='${pageContext.request.contextPath}/study/myTab'" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">내 스터디</button>
+							<button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">내 스터디</button>
 						</li>
 					</ul>
 					

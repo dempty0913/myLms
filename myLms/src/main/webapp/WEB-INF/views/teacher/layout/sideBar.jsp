@@ -47,9 +47,11 @@ $(function(){
 				<p class="liBtn" id="timeBoard"><a class="" href="${pageContext.request.contextPath}/teacher/timeBoard/home"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;시간표</a></p>
 				<p class="liBtn" id="mySchedule"><a class="" href="${pageContext.request.contextPath}/teacher/mySchedule/home"><i class="fa-solid fa-calendar"></i>&nbsp;&nbsp;내 일정</a></p>
 			</div>
+			<!-- 
 			<div class="lmsList">
 				<p class="liBtn" id="myMessage"><a class="" href="${pageContext.request.contextPath}/teacher/myMessage/home"><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;쪽지</a></p>
 			</div>
+			 -->
 		</div>
 		
 	</div>

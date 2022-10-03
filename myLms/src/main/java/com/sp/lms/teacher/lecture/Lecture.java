@@ -19,6 +19,8 @@ public class Lecture {
 	private List<String> days;
 	private List<String> times;
 	
+	private String sDate;
+	
 	public String getLectureName() {
 		return lectureName;
 	}
@@ -102,6 +104,12 @@ public class Lecture {
 	}
 	public void setLectureNum(int lectureNum) {
 		this.lectureNum = lectureNum;
+	}
+	public String getsDate() {
+		return sDate;
+	}
+	public void setsDate(String sDate) {
+		this.sDate = sDate;
 	}
 	
 	

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="std">
+	<insert id="insertStudy" parameterType="com.sp.lms.study.Study">
+		INSERT INTO study(studyNum, userId, subject, content, regDate, status)
+		VALUES(study_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0)
+	</insert>
+	
+	<select id="studyList" parameterType="map" resultType="com.sp.lms.study.Study">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT studyNum, userId, subject, content, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, status
+				FROM study
+				ORDER BY studyNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="studyCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM study
+	</select>
+	
+	<select id="myStudyList" parameterType="map" resultType="com.sp.lms.study.Study">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT studyNum, userId, subject, content, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, status
+				FROM study
+				WHERE userId=#{userId}
+				ORDER BY studyNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="myStudyCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM study WHERE userId=#{userId}
+	</select>
+	
+	<select id="studyDetail" parameterType="integer" resultType="com.sp.lms.study.Study">
+		SELECT studyNum, userId, subject, content, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, status
+		FROM study
+		WHERE studyNum=#{studyNum}
+	</select>
+	
+	<update id="updateStudy" parameterType="com.sp.lms.study.Study">
+		UPDATE study SET subject=#{subject}, content=#{content} WHERE studyNum=#{studyNum}
+	</update>
+	
+	<delete id="deleteStudy" parameterType="integer">
+		DELETE FROM study WHERE studyNum=#{studyNum}
+	</delete>
+	
+	<select id="replyList" parameterType="map" resultType="com.sp.lms.study.Reply">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT studyReplyNum, studyNum, userId, content, 
+						TO_CHAR(regDate, 'YYYY-MM-DD') regDate, r.parent,
+						NVL(answerCount, 0) answerCount
+				FROM studyReply r
+				LEFT OUTER JOIN (
+					SELECT parent, COUNT(*) answerCount
+					FROM studyReply WHERE parent!=0 GROUP BY parent
+				) a ON r.studyReplyNum = a.parent
+				WHERE r.studyNum=#{studyNum} AND r.parent=0
+				ORDER BY r.studyReplyNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="replyCount" parameterType="map" resultType="integer">
+		SELECT NVL(COUNT(*), 0) FROM studyReply WHERE studyNum=#{studyNum} AND parent=0
+	</select>	
+	
+	<insert id="insertReply" parameterType="com.sp.lms.study.Reply">
+		INSERT INTO studyReply(studyReplyNum, studyNum, userId, content, regDate, parent)
+		VALUES(studyReply_seq.NEXTVAL, #{studyNum}, #{userId}, #{content}, SYSDATE, #{parent})
+	</insert>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM studyReply WHERE studyReplyNum=#{studyReplyNum}
+	</delete>
+	
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.sp.lms.study.Reply">
+		SELECT studyReplyNum, studyNum, userId, content, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, parent
+		FROM studyReply
+		WHERE parent=#{parent}
+		ORDER BY studyReplyNum DESC
+	</select>
+	
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM studyReply WHERE parent = #{parent}
+	</select>
+	
+	<select id="writerId" parameterType="integer" resultType="com.sp.lms.study.Reply">
+		SELECT userId writerId
+		FROM study
+		WHERE studyNum=#{studyNum}
+	</select>
+	
+	
+</mapper>

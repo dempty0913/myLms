@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cal">
+	<select id="scheduleList" parameterType="map" resultType="com.sp.lms.mySchedule.Schedule">
+		SELECT l.lectureNum num, lectureName subject, '#FF6666' color, 1 type,
+				case when ( TO_DATE(midSDate, 'YYYY-MM-DD') &gt;= TO_DATE(#{sDate}, 'YYYY-MM-DD')
+								AND TO_DATE(midSDate, 'YYYY-MM-DD') &lt;= TO_DATE(#{eDate}, 'YYYY-MM-DD')
+							 ) then midSDate
+					 when ( TO_DATE(finSDate, 'YYYY-MM-DD') &gt;= TO_DATE(#{sDate}, 'YYYY-MM-DD')
+								AND TO_DATE(finSDate, 'YYYY-MM-DD') &lt;= TO_DATE(#{eDate}, 'YYYY-MM-DD')
+							 ) then finSDate
+				end sDate
+		FROM lecture l
+		JOIN lectureApply a on l.lectureNum=a.lectureNum 
+		<where>
+			a.userId = #{userId}
+			AND
+			( 
+				 ( TO_DATE(midSDate, 'YYYY-MM-DD') &gt;= TO_DATE(#{sDate}, 'YYYY-MM-DD')
+					AND TO_DATE(midSDate, 'YYYY-MM-DD') &lt;= TO_DATE(#{eDate}, 'YYYY-MM-DD')
+				 )
+				 
+				 OR
+				 
+				 ( TO_DATE(finSDate, 'YYYY-MM-DD') &gt;= TO_DATE(#{sDate}, 'YYYY-MM-DD')
+					AND TO_DATE(finSDate, 'YYYY-MM-DD') &lt;= TO_DATE(#{eDate}, 'YYYY-MM-DD')
+				 )
+			)
+		</where>
+	</select>
+	
+	<select id="projectList" parameterType="map" resultType="com.sp.lms.mySchedule.Schedule">
+		SELECT projectNum num, projectSubject subject, eDate sDate, '#99CCFF' color, 2 type, lectureName
+		FROM project p
+		JOIN lecture l ON p.lectureNum=l.lectureNum
+		JOIN lectureApply a on l.lectureNum=a.lectureNum 
+		<where>
+			a.userId = #{userId}
+			AND
+			( 
+				 ( TO_DATE(TO_CHAR(eDate, 'YYYY-MM-DD'), 'YYYY-MM-DD') &gt;= TO_DATE(#{sDate}, 'YYYY-MM-DD')
+					AND TO_DATE(TO_CHAR(eDate, 'YYYY-MM-DD'), 'YYYY-MM-DD') &lt;= TO_DATE(#{eDate}, 'YYYY-MM-DD')
+				 )
+			)
+		</where>
+	</select>
+</mapper>
