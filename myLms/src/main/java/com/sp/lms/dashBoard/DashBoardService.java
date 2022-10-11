@@ -23,4 +23,6 @@ public interface DashBoardService {
 	
 	public ProjectStatus submitStatus(Map<String, Object> map);
 	public void updateProject(ProjectSubmit dto, String pathname) throws Exception;
+	
+	public List<Attendance> attendanceWeek(Map<String, Object> map);
 }

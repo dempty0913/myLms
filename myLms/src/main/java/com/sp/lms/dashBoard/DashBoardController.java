@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.lms.common.FileManager;
 import com.sp.lms.common.MyUtil;
@@ -128,6 +129,33 @@ public class DashBoardController {
 		return ".dashBoard.dashBoardLecture";
 	}
 	
+	@RequestMapping(value = "checkList")
+	public String checkList(HttpSession session,
+								@RequestParam int lectureApplyNum,
+								Model model) throws Exception {
+		
+		
+		return "dashBoard/checkList";
+	}
+	
+	@RequestMapping(value = "checkWrite")
+	@ResponseBody
+	public Map<String, Object> checkWrite(HttpSession session,
+								@RequestParam int lectureApplyNum
+								) throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("lectureApplyNum", lectureApplyNum);
+		
+		List<Attendance> list = service.attendanceWeek(map);
+		Map<String, Object> model = new HashMap<>();
+		
+		model.put("list", list);
+		
+		return model;
+	}
+	
 	
 	@RequestMapping(value = "videoList")
 	public String videoList(@RequestParam int lectureNum,
@@ -165,7 +193,17 @@ public class DashBoardController {
 			listNum = dataCount - (start + n - 1);
 			dto.setListNum(listNum);
 			n++;
+			
+			int time = (int)dto.getVideoTotalTime();
+			        
+	        int hour = time/(60*60);
+	        int minute = time/60-(hour*60);
+	        int second = time%60;
+	        
+	        String timeStr = hour + "시간 " + minute + "분 " + second + "초";
+	        dto.setTimeStr(timeStr);
 		}
+		
 
 		// AJAX 용 페이징
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");

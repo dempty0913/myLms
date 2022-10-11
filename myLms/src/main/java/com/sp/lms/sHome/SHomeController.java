@@ -1,5 +1,7 @@
 package com.sp.lms.sHome;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +29,31 @@ public class SHomeController {
 	@Autowired
 	private MyUtil myUtil;
 	
-	@RequestMapping(value = "home", method = RequestMethod.GET)
+	@RequestMapping(value = "home")
 	public String home(@RequestParam(value = "page", defaultValue = "1") int currentPage,
+					  @RequestParam(defaultValue = "") String keyword,	
 					  HttpServletRequest req,
 					  HttpSession session, 
-					  Model model) {
+					  Model model) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			keyword = URLDecoder.decode(keyword, "UTF-8");
+		}
+		
+		map.put("keyword", keyword);
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		map.put("userId", userId);
 
 		int rows = 5;
 		int totalPage = 0;
 		int dataCount = 0;
 		
-		dataCount = service.dataCount();
+		dataCount = service.dataCount(map);
 		
 		if(dataCount != 0) {
 			totalPage = myUtil.pageCount(rows, dataCount);
@@ -52,11 +66,6 @@ public class SHomeController {
 		int start = (currentPage - 1) * rows + 1;
 		int end = currentPage * rows;
 		
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		String userId = info.getUserId();
-		
-		map.put("userId", userId);
-		
 		map.put("start", start);
 		map.put("end", end);
 		
@@ -65,6 +74,9 @@ public class SHomeController {
 		String cp = req.getContextPath();
 		String listUrl = cp + "/home/home";
 		String query = "rows=" + rows;
+		if (keyword.length() != 0) {
+			query += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
 		
 		listUrl += "?" + query;
 		
@@ -77,6 +89,7 @@ public class SHomeController {
 		model.addAttribute("page", currentPage);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("rows", rows);
+		model.addAttribute("keyword", keyword);
 
 		return ".main.home";
 	}

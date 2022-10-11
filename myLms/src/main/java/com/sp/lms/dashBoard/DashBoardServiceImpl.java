@@ -199,17 +199,33 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Override
 	public void saveTime(Map<String, Object> map) {
-		int time;
+		int time, totalTime, saveTime;
 		try {
 			time = dao.selectOne("dash.getSaveTime", map);
-			if(time != 0 && time < (int)Double.parseDouble(String.valueOf(map.get("saveTime")))) {
+			totalTime = dao.selectOne("dash.getTotalTime", map);
+			saveTime = (int)Double.parseDouble(String.valueOf(map.get("saveTime")));
+			if(time != 0 && time < saveTime) {
 				dao.updateData("dash.updateSaveTime", map);
+				if(saveTime == totalTime) {
+					dao.updateData("dash.updateVideoStatus", map);
+				}
 			} else if(time == 0) {
 				dao.insertData("dash.saveTime", map);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Attendance> attendanceWeek(Map<String, Object> map) {
+		List<Attendance> list = null;
+		try {
+			list = dao.selectList("dash.attendanceWeek", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

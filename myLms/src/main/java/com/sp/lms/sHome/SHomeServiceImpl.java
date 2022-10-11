@@ -26,10 +26,10 @@ public class SHomeServiceImpl implements SHomeService {
 	}
 
 	@Override
-	public int dataCount() {
+	public int dataCount(Map<String, Object> map) {
 		int count = 0;
 		try {
-			count = dao.selectOne("sHome.sHomeCount");
+			count = dao.selectOne("sHome.sHomeCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

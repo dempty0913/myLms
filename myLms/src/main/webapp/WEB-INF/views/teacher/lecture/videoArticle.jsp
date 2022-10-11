@@ -105,6 +105,10 @@ function deleteBtn() {
 							<td colspan="3">${dto.videoName}</td>
 						</tr>
 						<tr>
+							<td>주차</td>
+							<td colspan="3">${dto.week}주차 수업</td>
+						</tr>
+						<tr>
 							<td>등록일</td>
 							<td>
 								<p>${dto.regDate}</p>

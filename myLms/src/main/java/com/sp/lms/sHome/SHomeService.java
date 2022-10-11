@@ -5,6 +5,6 @@ import java.util.Map;
 
 public interface SHomeService {
 	public List<SHome> sHomeList(Map<String, Object> map);
-	public int dataCount();
+	public int dataCount(Map<String, Object> map);
 	public void addLecture(Map<String, Object> map) throws Exception;
 }

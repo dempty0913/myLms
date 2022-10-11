@@ -9,17 +9,38 @@
 						year,semester,day,time,l.regDate,midSDate,finSDate
 				FROM lecture l
 				JOIN member m ON l.userId = m.userId
-                WHERE l.lectureNum NOT IN (SELECT l.lectureNum 
-                                    FROM lecture l 
-                                    JOIN lectureApply a ON l.lectureNum=a.lectureNum
-                                    WHERE a.userId=#{userId})
+                <where>
+					l.lectureNum NOT IN (SELECT l.lectureNum 
+			                                    FROM lecture l 
+			                                    JOIN lectureApply a ON l.lectureNum=a.lectureNum
+			                                    WHERE a.userId=#{userId})
+					<if test="keyword!=null and keyword != '' ">
+						AND
+						( INSTR(lectureName, #{keyword}) &gt; 0
+							OR INSTR(userName, #{keyword}) &gt; 0 
+							OR INSTR(major, #{keyword}) &gt; 0 )
+					</if>
+				</where>
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
-	<select id="sHomeCount" resultType="integer">
+	<select id="sHomeCount" parameterType="map" resultType="integer">
 		SELECT NVL(COUNT(*), 0) 
-		FROM lecture 
+		FROM lecture  l
+		JOIN member m ON l.userId = m.userId
+		<where>
+			l.lectureNum NOT IN (SELECT l.lectureNum 
+	                                    FROM lecture l 
+	                                    JOIN lectureApply a ON l.lectureNum=a.lectureNum
+	                                    WHERE a.userId=#{userId})
+			<if test="keyword!=null and keyword != '' ">
+				AND
+				( INSTR(lectureName, #{keyword}) &gt; 0
+					OR INSTR(userName, #{keyword}) &gt; 0 
+					OR INSTR(major, #{keyword}) &gt; 0 )
+			</if>
+		</where>
 	</select>
 	
 	<insert id="addLecture" parameterType="map">

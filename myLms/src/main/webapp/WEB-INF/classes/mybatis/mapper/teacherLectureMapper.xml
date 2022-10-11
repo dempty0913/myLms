@@ -55,32 +55,37 @@
 	
 	<!-- 영상 -->
 	<insert id="insertVideo" parameterType="com.sp.lms.teacher.lecture.Video">
-		INSERT INTO lectureVideoFile(videoFileNum, lectureNum, videoTotalTime, videoName, videoFileName, regDate)
-		VALUES (lectureVideoFile_seq.NEXTVAL, #{lectureNum}, #{videoTotalTime}, #{videoName}, #{videoFileName}, SYSDATE)
+		INSERT INTO lectureVideoFile(videoFileNum, lectureNum, videoTotalTime, videoName, videoFileName, regDate, week)
+		VALUES (lectureVideoFile_seq.NEXTVAL, #{lectureNum}, #{videoTotalTime}, #{videoName}, #{videoFileName}, SYSDATE, #{week})
 	</insert>
 	
 	<select id="videoList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Video">
-		SELECT l.lectureNum, videoFileNum, lectureName, videoName, videoTotalTime, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate
+		SELECT l.lectureNum, videoFileNum, lectureName, videoName, videoTotalTime, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, week
 		FROM lecture l
 		JOIN lectureVideoFile v ON l.lectureNum=v.lectureNum
 		WHERE userId=#{userId}
 	</select>
 	
 	<select id="videoArticle" parameterType="map" resultType="com.sp.lms.teacher.lecture.Video">
-		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate
+		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate, week
 		FROM lectureVideoFile
 		WHERE videoFileNum=#{videoFileNum}
 	</select>
 	
 	<update id="updateVideo" parameterType="com.sp.lms.teacher.lecture.Video">
 		UPDATE lectureVideoFile SET lectureNum=#{lectureNum}, videoName=#{videoName},
-				videoFileName=#{videoFileName}, regDate=SYSDATE, videoTotalTime=#{videoTotalTime}
+				videoFileName=#{videoFileName}, regDate=SYSDATE, videoTotalTime=#{videoTotalTime}, week=#{week}
 		WHERE videoFileNum=#{videoFileNum}
 	</update>
 	
 	<delete id="deleteVideo" parameterType="integer">
 		DELETE FROM lectureVideoFile WHERE videoFileNum=#{videoFileNum}
 	</delete>
+	
+	<delete id="deleteVideoSave" parameterType="integer">
+		DELETE FROM pauseSave WHERE videoFileNum=#{videoFileNum}
+	</delete>
+	
 	
 	<!-- 과제 -->
 	<insert id="insertProject" parameterType="com.sp.lms.teacher.lecture.Project">

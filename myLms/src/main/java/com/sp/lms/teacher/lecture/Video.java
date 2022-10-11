@@ -14,6 +14,8 @@ public class Video {
 	
 	private MultipartFile videoSelectFile;
 	
+	private int week;
+	
 	public int getVideoFileNum() {
 		return videoFileNum;
 	}
@@ -61,6 +63,12 @@ public class Video {
 	}
 	public void setLectureName(String lectureName) {
 		this.lectureName = lectureName;
+	}
+	public int getWeek() {
+		return week;
+	}
+	public void setWeek(int week) {
+		this.week = week;
 	}
 	
 	

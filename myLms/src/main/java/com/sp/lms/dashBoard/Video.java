@@ -15,6 +15,10 @@ public class Video {
 	private int status;
 	private int percent;
 	
+	private int week;
+	
+	private String timeStr;
+	
 	public int getLectureNum() {
 		return lectureNum;
 	}
@@ -74,6 +78,18 @@ public class Video {
 	}
 	public void setPercent(int percent) {
 		this.percent = percent;
+	}
+	public int getWeek() {
+		return week;
+	}
+	public void setWeek(int week) {
+		this.week = week;
+	}
+	public String getTimeStr() {
+		return timeStr;
+	}
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
 	}
 
 	

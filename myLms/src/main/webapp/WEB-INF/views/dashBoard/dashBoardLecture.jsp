@@ -89,6 +89,30 @@
 	margin-top: 20px;
 }
 
+.accordion-body .accordion-unit {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 20px;
+}
+
+
+.checkPart {
+	margin: 30px 100px;
+}
+
+.attCheck {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.attCheck td {
+	border: 1px solid lightgray;
+	padding: 5px 8px;
+}
+
+.attCheck tr {
+	height: 30px;
+}
 
 </style>
 
@@ -120,6 +144,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 }
 
 $(function(){
+	attendanceCheck();
 	listPage(1);
 });
 
@@ -141,11 +166,43 @@ function listPage(page) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
+function attendanceCheck() {
+	let url = "${pageContext.request.contextPath}/dashBoard/checkList";
+	let query = "lectureApplyNum=" + ${lectureApplyNum};
+	let selector = ".checkPart";
+	
+	const fn = function(data){
+		$(selector).html(data);
+		
+		attendanceWrite();
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+function attendanceWrite() {
+	let url = "${pageContext.request.contextPath}/dashBoard/checkWrite";
+	let query = "lectureApplyNum=" + ${lectureApplyNum};
+	
+	const fn = function(data){
+		console.log(data);
+		for(let i=0; i < data.list.length; i++){
+			let name = "week" + data.list[i].week;
+			console.log(name);
+			
+			$("#"+name).text("출석");
+		}
+	};
+	ajaxFun(url, "get", query, "json", fn);
+}
+
+
+
 </script>
 
 
 		<div class="back">
 			<div class="lecture">
+			
 				<div class="top">
 					<p>${dto.year} - ${dto.semester}학기</p>
 					<div class="topBottom">
@@ -155,6 +212,12 @@ function listPage(page) {
 				</div>
 				
 			</div>
+			
+			
+			<div class="checkPart">
+				
+			</div>
+			
 			
 			<div class="detailList">
 				

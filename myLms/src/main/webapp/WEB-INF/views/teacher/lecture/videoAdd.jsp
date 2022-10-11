@@ -127,6 +127,7 @@ window.addEventListener("load", function(){
 
 $(function(){
 	$("#major").val(${lectureNum}).prop("selected", true);
+	$("#week").val(${dto.week}).prop("selected", true);
 });
 
 </script>
@@ -151,6 +152,16 @@ $(function(){
 									<select class="form-select" id="major" name="lectureNum">
 										<c:forEach var="li" items="${list}">
 											<option value="${li.lectureNum}">${li.lectureName}</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>주차</td>
+								<td>
+									<select class="form-select" id="week" name="week">
+										<c:forEach var="i" begin="1" end="15">
+											<option value="${i}">${i}주차</option>
 										</c:forEach>
 									</select>
 								</td>

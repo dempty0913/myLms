@@ -226,6 +226,7 @@ public class LectureServiceImpl implements LectureService {
 	@Override
 	public void deleteVideo(int videoFileNum) throws Exception {
 		try {
+			dao.deleteData("tLecture.deleteVideoSave", videoFileNum);
 			dao.deleteData("tLecture.deleteVideo", videoFileNum);
 		} catch (Exception e) {
 			e.printStackTrace();

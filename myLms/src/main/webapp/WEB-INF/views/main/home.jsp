@@ -52,6 +52,11 @@ function addLecture(lectureNum) {
 	let num = lectureNum;
 	location.href = "${pageContext.request.contextPath}/home/add?lectureNum="+num;
 }
+
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
 </script>
 
 		<div class="contents">
@@ -61,9 +66,9 @@ function addLecture(lectureNum) {
 					<p>수업을 추가해보세요</p>
 				</div>
 				
-				<form name="searchForm" class="search">
-					<input type="text" placeholder="수업명, 교수명, 전공으로 검색">
-					<button type="button">검색</button>
+				<form name="searchForm" class="search" method="post" action="${pageContext.request.contextPath}/home/home">
+					<input type="text" name="keyword" value="${keyword}" placeholder="수업명, 교수명, 전공으로 검색">
+					<button type="button" onclick="searchList();">검색</button>
 				</form>
 			</div>
 			
@@ -72,6 +77,7 @@ function addLecture(lectureNum) {
 		<hr>
 		
 		<div class="lectureList">
+			<p>총 ${dataCount}개 수업</p>
 			<table class="lecture">
 				<tr>
 					<td>전공</td>

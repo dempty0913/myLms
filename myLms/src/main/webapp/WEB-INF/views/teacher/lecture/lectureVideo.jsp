@@ -91,6 +91,10 @@
 	padding: 11px 10px;
 }
 
+.accordion-unit a {
+	padding-left: 15px;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -178,6 +182,7 @@ function deleteLecture() {
 											<c:forEach var="vd" items="${videoList}">
 												<c:if test="${li.lectureNum == vd.lectureNum}">
 													<div class="accordion-unit">
+														<p>${vd.week}주차</p>
 														<a href="${pageContext.request.contextPath}/teacher/lecture/vArticle?videoFileNum=${vd.videoFileNum}"><i class="fa-solid fa-circle-play"></i>&nbsp;&nbsp;${vd.videoName}(${vd.videoTotalTime})</a>
 													</div>
 													<hr>

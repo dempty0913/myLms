@@ -34,12 +34,12 @@
 	<select id="videoList" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				select v.lectureNum, a.lectureApplyNum, videoFileNum, videoName, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, videoTotalTime, videoFileName
+				select v.lectureNum, a.lectureApplyNum, videoFileNum, videoName, TO_CHAR(v.regDate, 'YYYY-MM-DD') regDate, videoTotalTime, videoFileName, week
 				from lectureVideoFile v
 				join lecture l on l.lectureNum=v.lectureNum
 				join lectureApply a on l.lectureNum=a.lectureNum
 				where a.userId=#{userId} and a.lectureNum=#{lectureNum}
-				ORDER BY videoFileNum DESC
+				ORDER BY videoFileNum
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
@@ -82,8 +82,17 @@
 		WHERE videoFileNum=#{videoFileNum} AND lectureApplyNum=#{lectureApplyNum}
 	</update>
 	
+	<update id="updateVideoStatus" parameterType="map">
+		UPDATE pauseSave SET status=1
+		WHERE videoFileNum=#{videoFileNum} AND lectureApplyNum=#{lectureApplyNum}
+	</update>
+	
 	<select id="getSaveTime" parameterType="map" resultType="integer">
 		SELECT NVL(MAX(saveTime), 0) FROM pauseSave WHERE videoFileNum=#{videoFileNum} AND lectureApplyNum=#{lectureApplyNum}
+	</select>
+	
+	<select id="getTotalTime" parameterType="map" resultType="integer">
+		SELECT videoTotalTime FROM lectureVideoFile WHERE videoFileNum=#{videoFileNum}
 	</select>
 	
 	
@@ -145,5 +154,20 @@
 						saveFileName=#{saveFileName, jdbcType=VARCHAR}, submitDate=SYSDATE
 		WHERE submitNum=#{submitNum}
 	</update>
+	
+	
+	<!-- 출석 -->
+	
+	<select id="attendanceWeek" parameterType="map" resultType="com.sp.lms.dashBoard.Attendance">
+		SELECT week
+		FROM (
+				SELECT week, count(*) count, sum(status) sum
+			    FROM lectureVideoFile f
+			    JOIN pauseSave p ON f.videoFileNum=p.videoFileNum
+			    GROUP BY week, lectureApplyNum
+			    HAVING lectureApplyNum=#{lectureApplyNum}
+		    )
+		WHERE count = sum
+	</select>
 	
 </mapper>
