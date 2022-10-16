@@ -25,4 +25,7 @@ public interface DashBoardService {
 	public void updateProject(ProjectSubmit dto, String pathname) throws Exception;
 	
 	public List<Attendance> attendanceWeek(Map<String, Object> map);
+	public void insertAttendance(Attendance dto) throws Exception;
+	public Attendance findAttendance(Attendance dto);
+	public List<Attendance> attendanceList(Map<String, Object> map);
 }

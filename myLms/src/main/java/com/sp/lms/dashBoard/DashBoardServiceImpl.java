@@ -209,6 +209,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 				if(saveTime == totalTime) {
 					dao.updateData("dash.updateVideoStatus", map);
 				}
+			} else if(time == 0 && saveTime == totalTime) {
+				dao.insertData("dash.saveTime", map);
+				dao.updateData("dash.updateVideoStatus", map);
 			} else if(time == 0) {
 				dao.insertData("dash.saveTime", map);
 			}
@@ -222,6 +225,37 @@ public class DashBoardServiceImpl implements DashBoardService {
 		List<Attendance> list = null;
 		try {
 			list = dao.selectList("dash.attendanceWeek", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void insertAttendance(Attendance dto) throws Exception {
+		try {
+			dao.insertData("dash.insertAttendance", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Attendance findAttendance(Attendance dto) {
+		Attendance at = null;
+		try {
+			at = dao.selectOne("dash.findAttendance", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return at;
+	}
+
+	@Override
+	public List<Attendance> attendanceList(Map<String, Object> map) {
+		List<Attendance> list = null;
+		try {
+			list = dao.selectList("dash.attendanceList", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

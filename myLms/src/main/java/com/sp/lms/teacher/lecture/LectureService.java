@@ -14,6 +14,8 @@ public interface LectureService {
 	public void deleteLecture(int lectureNum) throws Exception;
 	public int applyCount(int lectureNum);
 	
+	public List<Apply> lectureApplyList(Map<String, Object> map);
+	
 	public void insertVideo(Video dto, String pathname) throws Exception;
 	public List<Video> videoList(Map<String, Object> map);
 	public Video videoArticle(Map<String, Object> map);
@@ -28,4 +30,7 @@ public interface LectureService {
 	public int submitCount(Map<String, Object> map);
 	public List<Submit> applyList(int projectNum);
 	public Submit submitDetail(int submitNum);
+	
+	public List<Attendance> attendanceList(Map<String, Object> map);
+	public Apply memberDetail(int lectureApplyNum);
 }

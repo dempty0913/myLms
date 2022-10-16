@@ -293,7 +293,7 @@ function applyCount(lectureNum) {
 									<td>${li.lectureName}</td>
 									<td>${li.day}</td>
 									<td>${li.time}교시</td>
-									<td><button type="button" value="${li.lectureNum}" onclick="detailBtn('${li.lectureNum}', '${li.year}', '${li.semester}', '${li.lectureName}', '${li.major}', '${li.day}', '${li.time}', '${li.midSDate}', '${li.finSDate}', '${li.lectureInfo}');" class="btn detailBtn" data-bs-toggle="modal" data-bs-target="#detailModal">상세</button></td>
+									<td><button type="button" class="btn detailBtn" onclick="location.href='${pageContext.request.contextPath}/teacher/lecture/lectureApplyList?lectureNum=${li.lectureNum}&lectureName=${li.lectureName}'">상세</button></td>
 								</tr>
 							</c:forEach>
 						</table>

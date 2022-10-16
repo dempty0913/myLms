@@ -265,5 +265,38 @@ public class LectureServiceImpl implements LectureService {
 		}
 		return dto;
 	}
+
+	@Override
+	public List<Apply> lectureApplyList(Map<String, Object> map) {
+		List<Apply> list = null;
+		try {
+			list = dao.selectList("tLecture.lectureApplyList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Attendance> attendanceList(Map<String, Object> map) {
+		List<Attendance> list = null;
+		try {
+			list = dao.selectList("tLecture.attendanceList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public Apply memberDetail(int lectureApplyNum) {
+		Apply dto = null;
+		try {
+			dto = dao.selectOne("tLecture.memberDetail", lectureApplyNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
 	
 }

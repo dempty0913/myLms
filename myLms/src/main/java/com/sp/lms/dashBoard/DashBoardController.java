@@ -141,17 +141,30 @@ public class DashBoardController {
 	@RequestMapping(value = "checkWrite")
 	@ResponseBody
 	public Map<String, Object> checkWrite(HttpSession session,
-								@RequestParam int lectureApplyNum
+								@RequestParam int lectureApplyNum,
+								@RequestParam int lectureNum
 								) throws Exception {
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("lectureApplyNum", lectureApplyNum);
+		map.put("lectureNum", lectureNum);
 		
 		List<Attendance> list = service.attendanceWeek(map);
+		for(Attendance dto : list) {
+			dto.setLectureApplyNum(lectureApplyNum);
+			Attendance at = service.findAttendance(dto);
+			if(at == null) {
+				System.out.println(lectureApplyNum + "번 " + dto.getWeek() + "주차 출석 정보 없음------삽입");
+				service.insertAttendance(dto);
+			}
+		}
+		
+		List<Attendance> atList = service.attendanceList(map);
+		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("list", list);
+		model.put("list", atList);
 		
 		return model;
 	}

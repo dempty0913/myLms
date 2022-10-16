@@ -67,7 +67,7 @@
 	</select>
 	
 	<select id="videoArticle" parameterType="map" resultType="com.sp.lms.dashBoard.Video">
-		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate
+		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, TO_CHAR(regDate, 'YYYY/MM/DD') regDate
 		FROM lectureVideoFile
 		WHERE videoFileNum=#{videoFileNum}
 	</select>
@@ -161,13 +161,35 @@
 	<select id="attendanceWeek" parameterType="map" resultType="com.sp.lms.dashBoard.Attendance">
 		SELECT week
 		FROM (
-				SELECT week, count(*) count, sum(status) sum
-			    FROM lectureVideoFile f
-			    JOIN pauseSave p ON f.videoFileNum=p.videoFileNum
-			    GROUP BY week, lectureApplyNum
-			    HAVING lectureApplyNum=#{lectureApplyNum}
+		        SELECT lectureApplyNum, week, count(*) count, sum(status) sum
+		        FROM (SELECT lectureNum, videoName, week, NVL(lectureApplyNum, #{lectureApplyNum}) lectureApplyNum, NVL(status,0) status
+		                FROM (SELECT *
+		                      FROM lectureVideoFile
+		                      WHERE lectureNum=#{lectureNum}) f
+		                FULL OUTER JOIN (SELECT *
+		                                 FROM pauseSave
+		                                 WHERE lectureApplyNum=#{lectureApplyNum}) p ON f.videoFileNum=p.videoFileNum
+		             )
+		        GROUP BY week, lectureApplyNum
 		    )
 		WHERE count = sum
+	</select>
+	
+	<insert id="insertAttendance" parameterType="com.sp.lms.dashBoard.Attendance">
+		INSERT INTO attendance(lectureApplyNum, week, status)
+		VALUES (#{lectureApplyNum}, #{week}, 0)
+	</insert>
+	
+	<select id="findAttendance" parameterType="com.sp.lms.dashBoard.Attendance" resultType="com.sp.lms.dashBoard.Attendance">
+		SELECT lectureApplyNum, week
+		FROM attendance
+		WHERE lectureApplyNum=#{lectureApplyNum} AND week=#{week}
+	</select>
+	
+	<select id="attendanceList" parameterType="map" resultType="com.sp.lms.dashBoard.Attendance">
+		SELECT lectureApplyNum, week
+		FROM attendance
+		WHERE lectureApplyNum=#{lectureApplyNum}
 	</select>
 	
 </mapper>

@@ -15,6 +15,7 @@ public class Video {
 	private MultipartFile videoSelectFile;
 	
 	private int week;
+	private String finDate;
 	
 	public int getVideoFileNum() {
 		return videoFileNum;
@@ -69,6 +70,12 @@ public class Video {
 	}
 	public void setWeek(int week) {
 		this.week = week;
+	}
+	public String getFinDate() {
+		return finDate;
+	}
+	public void setFinDate(String finDate) {
+		this.finDate = finDate;
 	}
 	
 	

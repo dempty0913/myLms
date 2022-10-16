@@ -53,6 +53,29 @@
 	</delete>
 	
 	
+	<select id="lectureApplyList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Apply">
+		SELECT lectureApplyNum, userName
+		FROM lectureApply a
+		JOIN member m ON a.userId=m.userId
+		WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="attendanceList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Attendance">
+		SELECT a.lectureApplyNum, week
+	FROM attendance a
+	JOIN lectureApply la ON a.lectureApplyNum=la.lectureApplyNum
+	WHERE lectureNum=#{lectureNum}
+	</select>
+	
+	<select id="memberDetail" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Apply">
+		SELECT lectureApplyNum, userName, userPhone, userEmail
+		FROM lectureApply a
+		JOIN member m ON a.userId=m.userId
+		WHERE lectureApplyNum=#{lectureApplyNum}
+	</select>
+	
+	
+	
 	<!-- 영상 -->
 	<insert id="insertVideo" parameterType="com.sp.lms.teacher.lecture.Video">
 		INSERT INTO lectureVideoFile(videoFileNum, lectureNum, videoTotalTime, videoName, videoFileName, regDate, week)
@@ -64,10 +87,11 @@
 		FROM lecture l
 		JOIN lectureVideoFile v ON l.lectureNum=v.lectureNum
 		WHERE userId=#{userId}
+		ORDER BY week, videoFileNum
 	</select>
 	
 	<select id="videoArticle" parameterType="map" resultType="com.sp.lms.teacher.lecture.Video">
-		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, regDate, week
+		SELECT lectureNum, videoFileNum, videoTotalTime, videoName, videoFileName, TO_CHAR(regDate, 'YYYY/MM/DD') regDate, week
 		FROM lectureVideoFile
 		WHERE videoFileNum=#{videoFileNum}
 	</select>

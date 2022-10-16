@@ -181,7 +181,7 @@ function attendanceCheck() {
 
 function attendanceWrite() {
 	let url = "${pageContext.request.contextPath}/dashBoard/checkWrite";
-	let query = "lectureApplyNum=" + ${lectureApplyNum};
+	let query = "lectureNum=" + ${dto.lectureNum} + "&lectureApplyNum=" + ${lectureApplyNum};
 	
 	const fn = function(data){
 		console.log(data);

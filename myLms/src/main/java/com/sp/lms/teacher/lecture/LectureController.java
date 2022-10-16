@@ -177,6 +177,67 @@ public class LectureController {
 		return "redirect:/teacher/lecture/home";
 	}
 	
+	
+	@RequestMapping(value = "lectureApplyList", method = RequestMethod.GET)
+	public String lectureApplyList(HttpServletRequest req,
+									@RequestParam int lectureNum,
+									@RequestParam String lectureName,
+									Model model) {
+		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("lectureNum", lectureNum);
+			
+			List<Apply> list = service.lectureApplyList(map);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("lectureName", lectureName);
+			model.addAttribute("lectureNum", lectureNum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return ".teacher.lecture.lectureDetail";
+	}
+	
+	
+	@RequestMapping(value = "attendanceWrite")
+	@ResponseBody
+	public Map<String, Object> checkWrite(HttpSession session,
+								@RequestParam int lectureNum
+								) throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("lectureNum", lectureNum);
+
+		List<Attendance> atList = service.attendanceList(map);
+		Lecture lecDto = service.lectureDetail(lectureNum);
+		
+		Map<String, Object> model = new HashMap<>();	
+		model.put("list", atList);
+		model.put("lecDto", lecDto);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "memberDetail")
+	@ResponseBody
+	public Map<String, Object> memberDetail(HttpSession session,
+								@RequestParam int lectureApplyNum
+								) throws Exception {
+		
+		Apply dto = service.memberDetail(lectureApplyNum);
+		
+		Map<String, Object> model = new HashMap<>();	
+		model.put("dto", dto);
+		
+		return model;
+	}
+	
+	
 	@RequestMapping(value = "videoList", method = RequestMethod.GET)
 	public String videoList(HttpServletRequest req,
 							  HttpSession session, 

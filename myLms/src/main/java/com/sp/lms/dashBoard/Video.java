@@ -19,6 +19,8 @@ public class Video {
 	
 	private String timeStr;
 	
+	private String finDate;
+	
 	public int getLectureNum() {
 		return lectureNum;
 	}
@@ -90,6 +92,12 @@ public class Video {
 	}
 	public void setTimeStr(String timeStr) {
 		this.timeStr = timeStr;
+	}
+	public String getFinDate() {
+		return finDate;
+	}
+	public void setFinDate(String finDate) {
+		this.finDate = finDate;
 	}
 
 	
