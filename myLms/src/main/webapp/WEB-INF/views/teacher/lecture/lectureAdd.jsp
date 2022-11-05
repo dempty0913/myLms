@@ -147,10 +147,12 @@ function addLecture () {
 								<td>수업명</td>
 								<td colspan="3"><input type="text" id="lectureName" name="lectureName" value="${dto.lectureName}" class="form-control"></td>
 							</tr>
+							<!-- 
 							<tr>
 								<td>수업목표</td>
 								<td colspan="3"><textarea class="form-control" id="lectureInfo" name="lectureInfo">${dto.lectureInfo}</textarea></td>
 							</tr>
+							 -->
 							<tr>
 								<td>전공</td>
 								<td>
@@ -206,10 +208,12 @@ function addLecture () {
 								<td>기말고사 날짜</td>
 								<td><input type="text" value="${dto.finSDate}" class="form-control" id="finSDate" name="finSDate" placeholder="ex) YYYY-MM-DD"></td>
 							</tr>
+							<!-- 
 							<tr>
 								<td>수업계획서</td>
 								<td colspan="3"><input class="form-control" name="selectFile" type="file" id="formFile"></td>
 							</tr>
+							 -->
 						</table>
 						<c:if test="${mode == 'update'}">
 							<input type="hidden" name="lectureNum" value="${dto.lectureNum}">

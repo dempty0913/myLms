@@ -5,6 +5,7 @@ public class SessionInfo {
 	private String userName;
 	private String userEmail;
 	private int status;
+	private String profileImage;
 	
 	public String getUserId() {
 		return userId;
@@ -29,6 +30,12 @@ public class SessionInfo {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getProfileImage() {
+		return profileImage;
+	}
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 	
 }

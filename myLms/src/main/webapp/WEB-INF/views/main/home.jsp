@@ -112,7 +112,7 @@ function searchList() {
 
 <!-- detail Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">수업 상세</h5>
@@ -132,19 +132,9 @@ function searchList() {
 					<li id="finDate">기말고사 날짜 : <span></span></li>
 				</ul>
 			</div>
-			
-			<div class="rightContent">
-				<button type="button" class="lectureFileBtn">수업 계획서</button>
-				<button type="button" class="addBtn">+ 담기</button>
-			</div>
+
 	      </div>
-	      
-	      <div class="goal">
-		      <fieldset class="border pb-4 px-4">
-		      	<legend class="w-auto">강의 목표</legend>
-		      	<p id="info"></p>
-		      </fieldset>
-	      </div>
+
       </div>
       
     </div>

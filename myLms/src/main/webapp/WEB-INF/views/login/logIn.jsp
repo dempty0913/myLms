@@ -164,7 +164,7 @@ function loginTch() {
 						<input type="hidden" name="status" value="0">
 						<button type="button" class="btn loginBtn" onclick="loginStd();">학생으로 로그인</button>
 					</form>
-					<a href="#">회원가입하기</a>
+					<a href="${pageContext.request.contextPath}/member/join">회원가입하기</a>
 					<div class="d-grid">
 						<p class="form-control-plaintext text-center text-primary">${message}</p>
                		</div>
@@ -177,9 +177,9 @@ function loginTch() {
 							<p>비밀번호 <input type="password" name="userPwd" class="form-control"></p>
 						</div>
 						<input type="hidden" name="status" value="1">
-						<button type="button" class="btn loginBtn" onclick="loginTch();">교직원으로 로그인</button>
+						<button type="button" class="btn loginBtn" onclick="loginTch();">교수로 로그인</button>
 					</form>
-					<a href="#">회원가입하기</a>
+					<a href="${pageContext.request.contextPath}/member/join">회원가입하기</a>
 				</div>
 			</div>
 		</div>

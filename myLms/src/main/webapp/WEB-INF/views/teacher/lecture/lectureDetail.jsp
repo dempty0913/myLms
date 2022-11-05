@@ -223,8 +223,18 @@ function attendanceWrite() {
 		$(".majorS").text(data.lecDto.major + " 전공");
 		$(".yearS").text(data.lecDto.year + " 년 " + data.lecDto.semester + " 학기 수업");
 		$(".timeS").text(data.lecDto.day + " " + data.lecDto.time + " 교시");
-		$(".midS").text("중간고사 날짜 " + data.lecDto.midSDate);
-		$(".finS").text("기말고사 날짜 " + data.lecDto.finSDate);
+		if(data.lecDto.midSDate != null){
+			$(".midS").text("중간고사 날짜 : " + data.lecDto.midSDate);
+		} else {
+			$(".midS").text("중간고사 날짜 : 미정");
+		}
+		
+		if(data.lecDto.finSDate != null){
+			$(".finS").text("기말고사 날짜 : " + data.lecDto.finSDate);
+		} else {
+			$(".finS").text("기말고사 날짜 : 미정");
+		}
+		
 		
 		for(let i=0; i < data.list.length; i++){
 			let name = "lec" + data.list[i].lectureApplyNum + "week" + data.list[i].week;

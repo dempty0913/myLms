@@ -1,5 +1,7 @@
 package com.sp.lms.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Member {
 	private String userId;
 	private String userPwd;
@@ -10,6 +12,8 @@ public class Member {
 	private String regDate;
 	private String updateInfo;
 	private String profileImage;
+	
+	private MultipartFile selectFile;
 	
 	public String getUserId() {
 		return userId;
@@ -64,6 +68,12 @@ public class Member {
 	}
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
+	}
+	public MultipartFile getSelectFile() {
+		return selectFile;
+	}
+	public void setSelectFile(MultipartFile selectFile) {
+		this.selectFile = selectFile;
 	}
 	
 	

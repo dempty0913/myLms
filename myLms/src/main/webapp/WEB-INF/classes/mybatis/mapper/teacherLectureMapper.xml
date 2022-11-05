@@ -3,9 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tLecture">
 	<insert id="insertLecture" parameterType="com.sp.lms.teacher.lecture.Lecture">
-		INSERT INTO lecture(lectureNum, userId, lectureName, lectureInfo, 
+		INSERT INTO lecture(lectureNum, userId, lectureName, 
 						major,year,semester,day,time,regDate,midSDate,finSDate)
-		VALUES(lecture_seq.NEXTVAL, #{userId}, #{lectureName}, #{lectureInfo}, #{major}, 
+		VALUES(lecture_seq.NEXTVAL, #{userId}, #{lectureName}, #{major}, 
 				#{year}, #{semester}, #{day}, #{time}, SYSDATE, #{midSDate}, #{finSDate})
 	</insert>
 	
@@ -42,7 +42,7 @@
 	</select>
 	
 	<update id="updateLecture" parameterType="com.sp.lms.teacher.lecture.Lecture">
-		UPDATE lecture SET lectureName=#{lectureName}, lectureInfo=#{lectureInfo}, 
+		UPDATE lecture SET lectureName=#{lectureName}, 
 						major=#{major},year=#{year},semester=#{semester},
 						day=#{day},time=#{time},midSDate=#{midSDate},finSDate=#{finSDate}
 		WHERE lectureNum=#{lectureNum}
@@ -62,9 +62,9 @@
 	
 	<select id="attendanceList" parameterType="map" resultType="com.sp.lms.teacher.lecture.Attendance">
 		SELECT a.lectureApplyNum, week
-	FROM attendance a
-	JOIN lectureApply la ON a.lectureApplyNum=la.lectureApplyNum
-	WHERE lectureNum=#{lectureNum}
+		FROM attendance a
+		JOIN lectureApply la ON a.lectureApplyNum=la.lectureApplyNum
+		WHERE lectureNum=#{lectureNum}
 	</select>
 	
 	<select id="memberDetail" parameterType="integer" resultType="com.sp.lms.teacher.lecture.Apply">

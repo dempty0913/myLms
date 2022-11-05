@@ -31,19 +31,26 @@ $(function(){
 	<div class="sideBar">
 		<div class="memberProfile">
 			<div class="circle">
-				<img src="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/309/59932b0eb046f9fa3e063b8875032edd_crop.jpeg">
+				<c:choose>
+					<c:when test="${sessionScope.member.profileImage != null }">
+						<img src="${pageContext.request.contextPath}/uploads/profile/${sessionScope.member.profileImage}">
+					</c:when>
+					<c:otherwise>
+						<img src="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/309/59932b0eb046f9fa3e063b8875032edd_crop.jpeg">
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="memberInfo">
 				<p><span>학생</span>&nbsp;&nbsp;${sessionScope.member.userName}</p>
 				<p>${sessionScope.member.userEmail}</p>
-				<p>회원정보수정</p>
+				<p class="updateInfo"><a href="${pageContext.request.contextPath}/member/updateInfo?userId=${sessionScope.member.userId}">회원정보수정</a></p>
 			</div>
 		</div>
 		<div class="menuList">
 			<div class="lmsList">
 				<p class="liBtn" id="home"><a class="" href="${pageContext.request.contextPath}/home/home"><i class="fa-solid fa-house-user"></i>&nbsp;&nbsp;홈</a></p>
 				<p class="liBtn" id="dashBoard"><a class="" href="${pageContext.request.contextPath}/dashBoard/home"><i class="fa-solid fa-chalkboard"></i>&nbsp;&nbsp;대시보드</a></p>
-				<p class="liBtn" id="timeBoard"><a class="" href="${pageContext.request.contextPath}/timeBoard/home"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;시간표</a></p>
+				<!-- <p class="liBtn" id="timeBoard"><a class="" href="${pageContext.request.contextPath}/timeBoard/home"><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;시간표</a></p> -->
 				<p class="liBtn" id="review"><a class="" href="${pageContext.request.contextPath}/review/home"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;수업후기</a></p>
 				<!-- <p class="liBtn" id="bookSale"><a class="" href="${pageContext.request.contextPath}/bookSale/home"><i class="fa-solid fa-book"></i>&nbsp;&nbsp;책방</a></p> -->
 				<p class="liBtn" id="mySchedule"><a class="" href="${pageContext.request.contextPath}/mySchedule/home"><i class="fa-solid fa-calendar"></i>&nbsp;&nbsp;내 일정</a></p>

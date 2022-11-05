@@ -40,7 +40,7 @@
 
 .searchLeft {
 	display: flex;
-	width: 70%;
+	width: 100%;
 }
 
 .searchBtn {
@@ -165,6 +165,11 @@ $(function(){
 	});
 });
 
+
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
 </script>
 
 
@@ -175,20 +180,17 @@ $(function(){
 					<div class="title">
 						<p>수업후기</p>
 					</div>
-					<div class="searchFilter">
-						<div class="searchLeft">
-							<div class="input-group">
-								<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-								<input type="text" class="form-control" placeholder="수업명, 교수명으로 검색하세요">
+					<form name="searchForm" class="search" method="post" action="${pageContext.request.contextPath}/review/home">
+						<div class="searchFilter">
+							<div class="searchLeft">
+									<div class="input-group">
+										<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+										<input type="text" class="form-control" name="keyword" value="${keyword}" placeholder="수업명, 교수명으로 검색하세요">
+									</div>
+									<button type="button" class="searchBtn" onclick="searchList();">검색</button>
 							</div>
-							<button type="button" class="searchBtn">검색</button>
 						</div>
-						<select class="form-select">
-							<option>전체</option>
-							<option>전공</option>
-							<option>교양</option>				
-						</select>
-					</div>
+					</form>
 					<!-- 
 					<div class="majorList">
 						<div class="major">글로벌비즈니스</div>

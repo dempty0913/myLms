@@ -105,6 +105,22 @@ function addReview () {
 								<td>내용</td>
 								<td colspan="3"><textarea class="form-control" id="content" name="content">${dto.content}</textarea></td>
 							</tr>
+							<tr>
+								<td>모집상태</td>
+								<td>
+									<div class="status col-sm-9">
+										<input class="form-check-input" type="radio" name="status" id="status" value="0" checked>
+										<label class="form-check-label" for="status">
+											모집중
+										</label>
+										
+										<input class="form-check-input" type="radio" name="status" id="status" value="1">
+										<label class="form-check-label" for="status">
+											모집완료
+										</label>
+									</div>
+								</td>
+							</tr>
 						</table>
 						<c:if test="${mode == 'update'}">
 							<input type="hidden" name="studyNum" value="${dto.studyNum}">

@@ -12,13 +12,26 @@
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT studyNum, userId, subject, content, TO_CHAR(regDate, 'YYYY-MM-DD') regDate, status
 				FROM study
+				<where>
+					<if test="keyword!=null and keyword != '' ">
+						INSTR(subject, #{keyword}) &gt; 0
+							OR INSTR(content, #{keyword}) &gt; 0
+					</if>
+				</where>
 				ORDER BY studyNum DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
 	<select id="studyCount" parameterType="map" resultType="integer">
-		SELECT NVL(COUNT(*), 0) FROM study
+		SELECT NVL(COUNT(*), 0) 
+		FROM study
+		<where>
+			<if test="keyword!=null and keyword != '' ">
+				( INSTR(subject, #{keyword}) &gt; 0
+					OR INSTR(content, #{keyword}) &gt; 0)
+			</if>
+		</where>
 	</select>
 	
 	<select id="myStudyList" parameterType="map" resultType="com.sp.lms.study.Study">
@@ -43,7 +56,7 @@
 	</select>
 	
 	<update id="updateStudy" parameterType="com.sp.lms.study.Study">
-		UPDATE study SET subject=#{subject}, content=#{content} WHERE studyNum=#{studyNum}
+		UPDATE study SET subject=#{subject}, content=#{content}, status=#{status} WHERE studyNum=#{studyNum}
 	</update>
 	
 	<delete id="deleteStudy" parameterType="integer">
@@ -97,6 +110,5 @@
 		FROM study
 		WHERE studyNum=#{studyNum}
 	</select>
-	
-	
+
 </mapper>

@@ -92,14 +92,6 @@
 	</li>
 </ul>
 
-<div class="select">
-	<select class="form-select">
-		<option>전체</option>
-		<option>미제출</option>
-		<option>제출</option>				
-	</select>
-
-</div>
 
 <div class="videoList">
 	<table class="video table table-hover">

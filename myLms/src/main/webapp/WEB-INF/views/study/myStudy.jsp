@@ -40,7 +40,7 @@
 
 .searchLeft {
 	display: flex;
-	width: 70%;
+	width: 100%;
 }
 
 .searchBtn {
@@ -217,6 +217,11 @@ $(function(){
 });
 
 
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
+
 </script>
 
 
@@ -226,20 +231,17 @@ $(function(){
 					<p>스터디</p>
 				</div>
 				
-				<div class="searchFilter">
-					<div class="searchLeft">
-						<div class="input-group">
-							<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-							<input type="text" class="form-control" placeholder="제목, 내용으로 검색하세요">
+				<form name="searchForm" class="search" method="post" action="${pageContext.request.contextPath}/study/home">
+					<div class="searchFilter">
+						<div class="searchLeft">
+								<div class="input-group">
+									<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+									<input type="text" class="form-control" name="keyword" value="${keyword}" placeholder="제목, 내용으로 검색하세요">
+								</div>
+								<button type="button" class="searchBtn" onclick="searchList();">검색</button>
 						</div>
-						<button type="button" class="searchBtn">검색</button>
 					</div>
-					<select class="form-select">
-						<option>전체</option>
-						<option>모집중</option>
-						<option>모집완료</option>				
-					</select>
-				</div>
+				</form>
 				
 				
 				<div class="mainContent">
@@ -279,12 +281,14 @@ $(function(){
 								</div>
 								<p class="regDate">${li.regDate}</p>
 							</div>
+							<!-- 
 							<div class="lectureRight">
 								<div class="count">
 									<p>댓글</p>
 									<p>5</p>
 								</div>
 							</div>
+							 -->
 						</div>
 					</c:forEach>
 				</div>

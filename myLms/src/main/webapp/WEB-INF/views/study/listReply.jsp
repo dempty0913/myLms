@@ -5,7 +5,6 @@
 
 <div class='reply-info'>
 	<span class='reply-count'>댓글 ${replyCount}개</span>
-	<span>[목록, ${pageNo}/${total_page} 페이지]</span>
 </div>
 
 <table class='table table-borderless'>
@@ -13,7 +12,6 @@
 		<tr class='border bg-light'>
 			<td width='50%'>
 				<div class='row reply-writer'>
-					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
 					<div class='col-auto align-self-center'>
 						<div class='name'>
 							<c:choose>

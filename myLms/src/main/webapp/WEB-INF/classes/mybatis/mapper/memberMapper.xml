@@ -15,4 +15,21 @@
 		FROM member
 		WHERE userId = #{userId} AND status = 1
 	</select>
+	
+	<insert id="joinMember" parameterType="com.sp.lms.member.Member">
+		INSERT INTO member(userId, userPwd, userName, userPhone, userEmail, status, regDate)
+		VALUES(#{userId}, #{userPwd}, #{userName}, #{userPhone}, #{userEmail}, #{status}, SYSDATE)
+	</insert>
+	
+	<select id="memberInfo" parameterType="String" resultType="com.sp.lms.member.Member">
+		SELECT userId, userPwd, userName, userPhone, userEmail, profileImage
+		FROM member
+		WHERE userId=#{userId}
+	</select>
+	
+	<update id="updateMember" parameterType="com.sp.lms.member.Member">
+		UPDATE member SET userName=#{userName}, userPhone=#{userPhone, jdbcType=VARCHAR},
+				userEmail=#{userEmail, jdbcType=VARCHAR}, profileImage=#{profileImage, jdbcType=VARCHAR}
+		WHERE userId=#{userId}
+	</update>
 </mapper>

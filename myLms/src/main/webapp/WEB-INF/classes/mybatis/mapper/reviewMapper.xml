@@ -8,13 +8,26 @@
 				SELECT lectureNum, lectureName, userName, major
 				FROM lecture l
 				JOIN member m ON l.userId=m.userId
+				<where>
+					<if test="keyword!=null and keyword != '' ">
+						INSTR(lectureName, #{keyword}) &gt; 0
+							OR INSTR(userName, #{keyword}) &gt; 0
+					</if>
+				</where>
 				ORDER BY lectureNum DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
 	<select id="dataCount" resultType="integer">
-		SELECT NVL(COUNT(*), 0) FROM lecture
+		SELECT NVL(COUNT(*), 0) 
+		FROM lecture
+		<where>
+			<if test="keyword!=null and keyword != '' ">
+				INSTR(lectureName, #{keyword}) &gt; 0
+					OR INSTR(userName, #{keyword}) &gt; 0
+			</if>
+		</where>
 	</select>
 	
 	<select id="reviewCount" parameterType="map" resultType="com.sp.lms.review.Review">

@@ -1,5 +1,6 @@
 package com.sp.lms.study;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,50 +29,64 @@ public class StudyController {
 	@Autowired
 	private MyUtil myUtil;
 
-	@RequestMapping(value = "home", method = RequestMethod.GET)
+	@RequestMapping(value = "home")
 	public String study(@RequestParam(value = "page", defaultValue = "1") int currentPage,
+						@RequestParam(defaultValue = "") String keyword,
 						HttpServletRequest req,
 						Model model, HttpSession session) {
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			if (req.getMethod().equalsIgnoreCase("GET")) {
+				keyword = URLDecoder.decode(keyword, "UTF-8");
+			}
+			
+			map.put("keyword", keyword);
 
-		int rows = 5;
-		int totalPage = 0;
-		int dataCount = 0;
-		
-		dataCount = service.studyCount(map);
-		
-		if(dataCount != 0) {
-			totalPage = myUtil.pageCount(rows, dataCount);
+			int rows = 5;
+			int totalPage = 0;
+			int dataCount = 0;
+			
+			dataCount = service.studyCount(map);
+			
+			if(dataCount != 0) {
+				totalPage = myUtil.pageCount(rows, dataCount);
+			}
+			
+			if(currentPage > totalPage) {
+				currentPage = totalPage;
+			}
+			
+			int start = (currentPage - 1) * rows + 1;
+			int end = currentPage * rows;
+			
+			map.put("start", start);
+			map.put("end", end);
+			
+			List<Study> list = service.studyList(map);
+			
+			String cp = req.getContextPath();
+			String listUrl = cp + "/study/home";
+			String query = "rows=" + rows;
+			
+			listUrl += "?" + query;
+			
+			String paging = myUtil.paging(currentPage, totalPage, listUrl);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("listUrl", listUrl);
+			model.addAttribute("dataCount", dataCount);
+			model.addAttribute("paging", paging);
+			model.addAttribute("page", currentPage);
+			model.addAttribute("totalPage", totalPage);
+			model.addAttribute("rows", rows);
+			model.addAttribute("keyword", keyword);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
-		if(currentPage > totalPage) {
-			currentPage = totalPage;
-		}
-		
-		int start = (currentPage - 1) * rows + 1;
-		int end = currentPage * rows;
-		
-		map.put("start", start);
-		map.put("end", end);
-		
-		List<Study> list = service.studyList(map);
-		
-		String cp = req.getContextPath();
-		String listUrl = cp + "/study/home";
-		String query = "rows=" + rows;
-		
-		listUrl += "?" + query;
-		
-		String paging = myUtil.paging(currentPage, totalPage, listUrl);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("listUrl", listUrl);
-		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("paging", paging);
-		model.addAttribute("page", currentPage);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("rows", rows);
 
 		return ".study.myStudy";
 	}
